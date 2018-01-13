@@ -1,0 +1,114 @@
+---
+layout: default
+title: Mountain Movers International
+header_background_image: /images/home-bg-custom.jpg
+newsletter_background_image: /images/refugee.jpg
+---
+<header style="background-image: url({% include relative-src.html src=page.header_background_image %});">
+	<div class="container">
+		<h1 class="editable">Serving as a bridge between needs and resources</h1>
+		<div class="button">
+			<a href="#donate">Donate Today</a>
+		</div>
+	</div>
+	<div class="learn-more"><a href="#learn-more">Learn more <span class="arrow">&#x25BC;</span></a></div>
+</header>
+
+<!--
+<section id="learn-more">
+	<div class="container">
+		<h2 class="editable">Why Sheep need the vote</h2>
+
+		<ul class="thirds">
+			<li>
+				<div class="image"><img class="editable" alt="population" src="{{ site.baseurl }}/images/people.svg" /></div>
+				<h3 class="editable">Population</h3>
+				<p class="editable">New Zealand has a human population of just 4.5M while there are 70M sheep. </p>
+			</li>
+
+			<li>
+				<div class="image"><img class="editable" alt="trends" src="{{ site.baseurl }}/images/trend.svg" /></div>
+				<h3 class="editable">Economy</h3>
+				<p class="editable">Sheep are the backbone of the economy yet they receive no compensation.</p>
+			</li>
+
+			<li>
+				<div class="image"><img class="editable" alt="conditions" src="{{ site.baseurl }}/images/heart.svg" /></div>
+				<h3 class="editable">Work Conditions</h3>
+				<p class="editable">Sheep are forced to eat grass every day of their life. How about some of variety?</p>
+			</li>
+		</ul>
+	</div>
+</section>
+-->
+
+<section id="learn-more">
+	<div class="container mission">
+		<h2 class="editable">Our Mission</h2>
+		<blockquote>
+			<p class="quote editable">Defend the weak and the fatherless; uphold the cause of the poor and oppressed, to rescue the weak and the needy; deliver them from the hand of the wicked.</p>
+			<div class="attribute">
+				<p class="meta">
+					<span class="author editable"><strong>Psalms 82:3-4</strong><!--<br />Founder--></span>
+					<!--<span class="image"><img class="editable" src="{{ site.baseurl }}/images/wooly.jpg" alt="Wooly"></span>-->
+				</p>
+			</div>
+		</blockquote>
+		<p class="editable">
+			Over the years, this has manifested itself in many different programs and locales including rescuing victims of sex trafficking, running orphanages and schools, drilling water wells, managing farms, micro-lending for economic development, establishing clinics and hospitals, and much more. We have demonstrated a penchant for <strong>spearheading attacks on the worst societal issues in the most hopeless situations</strong>. However, we need your help to continue to support and grow these endeavors. Find out how you can help below:
+		</p>
+	</div>
+</section>
+
+<section class="newsletter" style="background-image: url({% include relative-src.html src=page.newsletter_background_image %});">
+	<div class="container">
+		<h2 class="editable">Join us</h2>
+		<p class="editable" style="font-weight: bold">Stay in connected, hear our latest progress reports, and find out about the most urgent needs.</p>
+		<form action="{{ site.newsletter_action }}" method="post">
+			<input type="text" name="EMAIL" placeholder="Email">
+			<input type="submit" value="Sign up"/>
+		</form>
+	</div>
+</section>
+
+<section id="donate">
+	<div class="container">
+		<h2 class="editable">Make a donation</h2>
+		<div style="text-align: center; margin-top: 50px; font-size: 2em; font-weight: bold;">Donations returning soon, thanks for your patience!</div>
+		<!-- <div class="donate">
+			{{ site.donation_embed }}
+		</div> -->
+	</div>
+	<div class="container">
+		<blockquote>
+			<p class="quote editable">... if I have a faith that can move mountains, but do not have love, I am nothing.</p>
+			<div class="attribute">
+				<p class="meta">
+					<span class="author editable"><strong>1 Corinthians 13:2</strong><!--<br />Founder--></span>
+					<!--<span class="image"><img class="editable" src="{{ site.baseurl }}/images/wooly.jpg" alt="Wooly"></span>-->
+				</p>
+			</div>
+		</blockquote>
+	</div>
+</section>
+<!--
+<section>
+	<div class="container">
+		<h2 class="editable">Updates</h2>
+		<p class="editor-link"><a href="cloudcannon:collections/_posts" class="btn"><strong>&#9998;</strong> Add Update</a></p>
+		{% for post in site.posts %}
+			{% assign author_id = post.author_staff_member | prepend: "/staff_members/" | append: "/" %}
+			{% assign author = site.staff_members | where: "url", author_id | first %}
+			<div class="post">
+				<div class="post-title">
+					<img src="{% include relative-src.html src=author.image %}" alt="Photo of {{ author.name }}" width="50" height="50" />
+					<h3>{{ post.title }}</h3>
+					<p class="date">{{ post.date | date: '%B %d, %Y' }}</p>
+				</div>
+				{{ post.content }}
+				<p class="editor-link"><a href="cloudcannon:collections/{{ post.path }}" class="btn"><strong>&#9998;</strong> Edit Update</a></p>
+			</div>
+		{% endfor %}
+	</div>
+</section>
+-->
