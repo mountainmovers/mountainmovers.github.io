@@ -1,0 +1,247 @@
+---
+layout: default
+title: Spiritual Gifts Inventory
+description: Find out your spiritual gifts with the Mountain Movers International Spiritual Gifts Inventory.
+permalink: /spiritual-gifts-inventory/
+---
+<div class="sgi-hero">
+	<div class="container">
+		<h1>Spiritual Gifts Inventory</h1>
+		<p>If I have a faith that can move mountains, but have not love, I am nothing... (1 Cor. 13:2b)</p>
+	</div>
+</div>
+
+<section id="sgi-gate">
+	<div class="container sgi-intro">
+		<h2>Find Out Your Spiritual Gifts!</h2>
+		<p>This inventory of 110 short statements takes about 15 minutes and reveals where God has gifted you across 22 areas of ministry. Enter your email to join our mailing list and begin.</p>
+		<form id="sgi-gate-form" novalidate>
+			<input type="email" name="EMAIL" id="sgi-email" placeholder="Email" required>
+			<input type="submit" value="Start the Inventory">
+		</form>
+		<p class="sgi-gate-msg" id="sgi-gate-msg" hidden></p>
+	</div>
+</section>
+
+<section id="sgi-quiz" hidden>
+	<div class="sgi-progress">
+		<div class="container">
+			<p><span id="sgi-progress-count">0</span> of {{ site.data.spiritual_gifts.questions | size }} answered</p>
+			<div class="bar"><div class="fill" id="sgi-progress-fill"></div></div>
+		</div>
+	</div>
+	<div class="container">
+		<p>Select the degree to which you agree with each statement, then click the "Find Out Your Scores" button at the end of the test.</p>
+		<form id="sgi-quiz-form" novalidate>
+			{% for question in site.data.spiritual_gifts.questions %}
+			{% assign question_number = forloop.index %}
+			<fieldset class="sgi-question" id="sgi-q{{ question_number }}">
+				<p class="sgi-text">{{ question_number }}) {{ question }}</p>
+				<div class="sgi-options">
+					{% for option in site.data.spiritual_gifts.scale %}
+					<label><input type="radio" name="q{{ question_number }}" value="{{ option.value }}">{{ option.label }}</label>
+					{% endfor %}
+				</div>
+			</fieldset>
+			{% endfor %}
+			<p class="sgi-quiz-msg" id="sgi-quiz-msg" hidden></p>
+			<input type="submit" value="Find Out Your Scores">
+		</form>
+	</div>
+</section>
+
+<section id="sgi-results" hidden>
+	<div class="container">
+		<h2>Your Spiritual Gifts</h2>
+		<p class="sgi-result-key">Each gift is scored out of 20. Your top three gifts are dominant; the next three are sub-dominant.</p>
+		<div id="sgi-results-list"></div>
+		<div class="sgi-retake">
+			<div class="button"><a id="sgi-retake" style="cursor:pointer;">Retake the Inventory</a></div>
+		</div>
+	</div>
+	<div class="container">
+		<h2>Put Your Gifts to Work</h2>
+		<p style="text-align:center;">This inventory is a free ministry of Mountain Movers International. If it has blessed you, please consider a donation to help us keep moving mountains.</p>
+		<div class="donate">
+			{{ site.donation_embed }}
+		</div>
+	</div>
+</section>
+
+<script>
+(function () {
+	var GIFTS = [{% for gift in site.data.spiritual_gifts.gifts %}"{{ gift.name }}"{% unless forloop.last %}, {% endunless %}{% endfor %}];
+	var TOTAL = {{ site.data.spiritual_gifts.questions | size }};
+	var MAX_PER_GIFT = 4 * TOTAL / GIFTS.length;
+	var SUBSCRIBE_URL = "https://mountainmovers.us17.list-manage.com/subscribe/post-json?u=41ee6d7cbb87953dd16e0cfa5&id=5563c68070";
+	var KEY_SUBSCRIBED = "sgi.subscribed";
+	var KEY_ANSWERS = "sgi.answers";
+
+	var gate = document.getElementById("sgi-gate");
+	var quiz = document.getElementById("sgi-quiz");
+	var results = document.getElementById("sgi-results");
+	var gateForm = document.getElementById("sgi-gate-form");
+	var gateMsg = document.getElementById("sgi-gate-msg");
+	var quizForm = document.getElementById("sgi-quiz-form");
+	var quizMsg = document.getElementById("sgi-quiz-msg");
+
+	function store(key, value) {
+		try { localStorage.setItem(key, value); } catch (e) {}
+	}
+	function fetchStored(key) {
+		try { return localStorage.getItem(key); } catch (e) { return null; }
+	}
+
+	function getAnswers() {
+		var answers = {};
+		var checked = quizForm.querySelectorAll("input[type=radio]:checked");
+		for (var i = 0; i < checked.length; i++) {
+			answers[checked[i].name] = parseInt(checked[i].value, 10);
+		}
+		return answers;
+	}
+
+	function updateProgress() {
+		var count = Object.keys(getAnswers()).length;
+		document.getElementById("sgi-progress-count").textContent = count;
+		document.getElementById("sgi-progress-fill").style.width = (100 * count / TOTAL) + "%";
+	}
+
+	function showQuiz() {
+		gate.hidden = true;
+		results.hidden = true;
+		quiz.hidden = false;
+	}
+
+	// Email gate — subscribe via Mailchimp JSONP, then unlock the quiz.
+	function jsonp(url, onDone, onFail) {
+		var cb = "sgiMailchimp" + Date.now();
+		var script = document.createElement("script");
+		var timer = setTimeout(function () { cleanup(); onFail(); }, 10000);
+		function cleanup() {
+			clearTimeout(timer);
+			delete window[cb];
+			if (script.parentNode) script.parentNode.removeChild(script);
+		}
+		window[cb] = function (data) { cleanup(); onDone(data); };
+		script.src = url + "&c=" + cb;
+		script.onerror = function () { cleanup(); onFail(); };
+		document.body.appendChild(script);
+	}
+
+	gateForm.addEventListener("submit", function (event) {
+		event.preventDefault();
+		var email = document.getElementById("sgi-email").value.trim();
+		gateMsg.hidden = true;
+		gateMsg.className = "sgi-gate-msg";
+		if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+			gateMsg.textContent = "Please enter a valid email address.";
+			gateMsg.hidden = false;
+			return;
+		}
+		function unlock(message) {
+			store(KEY_SUBSCRIBED, "1");
+			gateMsg.className = "sgi-gate-msg success";
+			gateMsg.textContent = message;
+			gateMsg.hidden = false;
+			showQuiz();
+			window.scrollTo(0, 0);
+		}
+		jsonp(SUBSCRIBE_URL + "&EMAIL=" + encodeURIComponent(email), function (data) {
+			if (data.result === "success" || /already subscribed/i.test(data.msg || "")) {
+				unlock("You're on the list. Enjoy the inventory!");
+			} else {
+				var div = document.createElement("div");
+				div.innerHTML = data.msg || "Something went wrong. Please try again.";
+				gateMsg.textContent = div.textContent;
+				gateMsg.hidden = false;
+			}
+		}, function () {
+			// Don't hold the inventory hostage to a signup outage.
+			unlock("We couldn't reach the mailing list just now, but you can still take the inventory.");
+		});
+	});
+
+	// Quiz — persist answers, track progress, score on submit.
+	quizForm.addEventListener("change", function (event) {
+		if (event.target.type !== "radio") return;
+		var labels = event.target.closest(".sgi-options").querySelectorAll("label");
+		for (var i = 0; i < labels.length; i++) labels[i].classList.remove("selected");
+		event.target.closest("label").classList.add("selected");
+		event.target.closest(".sgi-question").classList.remove("unanswered");
+		store(KEY_ANSWERS, JSON.stringify(getAnswers()));
+		updateProgress();
+	});
+
+	quizForm.addEventListener("submit", function (event) {
+		event.preventDefault();
+		var answers = getAnswers();
+		var unanswered = [];
+		for (var n = 1; n <= TOTAL; n++) {
+			var q = document.getElementById("sgi-q" + n);
+			if (answers["q" + n] === undefined) {
+				unanswered.push(n);
+				q.classList.add("unanswered");
+			} else {
+				q.classList.remove("unanswered");
+			}
+		}
+		if (unanswered.length > 0) {
+			quizMsg.textContent = "Please answer every statement — " + unanswered.length + " remaining (highlighted in red).";
+			quizMsg.hidden = false;
+			document.getElementById("sgi-q" + unanswered[0]).scrollIntoView({ behavior: "smooth", block: "center" });
+			return;
+		}
+		quizMsg.hidden = true;
+
+		// Question n scores toward gift (n - 1) mod 22.
+		var scores = GIFTS.map(function (name, i) {
+			var total = 0;
+			for (var n = i + 1; n <= TOTAL; n += GIFTS.length) total += answers["q" + n];
+			return { name: name, score: total };
+		});
+		scores.sort(function (a, b) { return b.score - a.score; });
+
+		var list = document.getElementById("sgi-results-list");
+		list.innerHTML = "";
+		scores.forEach(function (gift, rank) {
+			var row = document.createElement("div");
+			row.className = "sgi-result" + (rank < 3 ? " dominant" : rank < 6 ? " sub-dominant" : "");
+			row.innerHTML =
+				'<span class="name"></span>' +
+				'<div class="bar"><div class="fill" style="width:' + (100 * gift.score / MAX_PER_GIFT) + '%"></div></div>' +
+				'<span class="score">' + gift.score + ' / ' + MAX_PER_GIFT + '</span>';
+			row.querySelector(".name").textContent = gift.name;
+			list.appendChild(row);
+		});
+
+		quiz.hidden = true;
+		results.hidden = false;
+		window.scrollTo(0, 0);
+	});
+
+	document.getElementById("sgi-retake").addEventListener("click", function () {
+		try { localStorage.removeItem(KEY_ANSWERS); } catch (e) {}
+		var checked = quizForm.querySelectorAll("input[type=radio]:checked");
+		for (var i = 0; i < checked.length; i++) checked[i].checked = false;
+		var selected = quizForm.querySelectorAll("label.selected");
+		for (var j = 0; j < selected.length; j++) selected[j].classList.remove("selected");
+		updateProgress();
+		showQuiz();
+		window.scrollTo(0, 0);
+	});
+
+	// Restore state for returning visitors.
+	var saved = {};
+	try { saved = JSON.parse(fetchStored(KEY_ANSWERS)) || {}; } catch (e) {}
+	Object.keys(saved).forEach(function (name) {
+		var input = quizForm.querySelector('input[name="' + name + '"][value="' + saved[name] + '"]');
+		if (input) {
+			input.checked = true;
+			input.closest("label").classList.add("selected");
+		}
+	});
+	updateProgress();
+	if (fetchStored(KEY_SUBSCRIBED)) showQuiz();
+})();
+</script>

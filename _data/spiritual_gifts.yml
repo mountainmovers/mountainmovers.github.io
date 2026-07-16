@@ -1,0 +1,150 @@
+# Spiritual Gifts Inventory — 110 statements, 22 gifts.
+# Question n scores toward gift ((n - 1) mod 22): each gift sums questions n, n+22, n+44, n+66, n+88 (0-20 points).
+
+scale:
+  - value: 4
+    label: Strongly Agree
+  - value: 3
+    label: Agree Somewhat
+  - value: 2
+    label: Undecided
+  - value: 1
+    label: Disagree Somewhat
+  - value: 0
+    label: Completely Disagree
+
+gifts:
+  - name: Apostle
+  - name: Prophet
+  - name: Evangelist
+  - name: Pastor
+  - name: Teacher
+  - name: Music
+  - name: Exhortation
+  - name: Wisdom
+  - name: Knowledge
+  - name: Serving
+  - name: Helps
+  - name: Leadership
+  - name: Administration
+  - name: Giving
+  - name: Mercy
+  - name: Discernment
+  - name: Faith
+  - name: Hospitality
+  - name: Craftsmanship
+  - name: Intercession
+  - name: Healing
+  - name: Missionary
+
+questions:
+  - "People seem to be willing to follow my leadership without much resistance."
+  - "I like to proclaim God's Word to fellow Christians."
+  - "It is a joy for me to proclaim God's plan of salvation to unchurched people."
+  - "It is enjoyable to have the responsibility of leading other people in their spiritual life."
+  - "I'm excited in helping people to discover important truths in the scriptures."
+  - "I have special joy singing praises to God either alone or with other people."
+  - "It is enjoyable to motivate people to a higher spiritual commitment."
+  - "People with spiritual problems seem to come to me for advice and counsel."
+  - "I received excellent grades in school."
+  - "There is great joy in doing little jobs around the church."
+  - "I look for opportunities to assist people in their work."
+  - "There is great joy in leading people to accomplish group goals."
+  - "I like to organize people for more effective ministry."
+  - "There is great satisfaction in giving large amounts of money for the Lord's work."
+  - "I feel great compassion for the problems of others."
+  - "It seems easy to perceive whether a person is honest or dishonest."
+  - "I am ready to try the impossible because I have a great trust in God."
+  - "There is great joy in having people in my home."
+  - "I find that the repair and maintenance of things in my environment come easily to me."
+  - "I seem to recognize prayer needs before others."
+  - "I enjoy the opportunity to pray with and for a person who is physically ill that they may be made well."
+  - "I adapt easily in a culture different from mine."
+  - "I feel a sense of authority in my relationship to the group."
+  - "I like to proclaim the Word of God to comfort others."
+  - "I seem able to determine when the Spirit has prepared a person to receive Jesus Christ."
+  - "It is exciting to provide spiritual leadership for a congregation."
+  - "Teaching a Bible Class is one of the most enjoyable things I do (or could do) in the Church."
+  - "God has given me the ability to play a musical instrument and I enjoy it."
+  - "It is a joy to give encouragement to people who are discouraged."
+  - "I enjoy providing solutions to difficult problems in life."
+  - "It seems easy to learn difficult truths."
+  - "I enjoy doing routine tasks for the glory of God."
+  - "I enjoy helping with the emergency tasks around the Church."
+  - "People seem to enjoy following me in doing an important task."
+  - "There is joy in making important decisions."
+  - "I find real joy in giving a generous portion of my money to the Lord."
+  - "Visiting people in retirement homes gives me a great satisfaction."
+  - "I seem to know very quickly whether something is right or wrong."
+  - "When things seem impossible, I'm ready to move forward."
+  - "I do not feel uncomfortable when people drop in unexpectedly."
+  - "I have enjoyed creating various kinds of arts and/or crafts."
+  - "Prayer is one of my favorite spiritual exercises."
+  - "I have prayed for an emotionally ill person and seen the person get better."
+  - "It is easy for me to move into a new community and make friends."
+  - "I have little fear in leading people where God wants them to go."
+  - "I enjoy relating and sharing God's Word to the issues of the day."
+  - "I feel a burden to share the Gospel with people."
+  - "I like to assist people with their spiritual problems."
+  - "It seems that people learn when I teach them."
+  - "I have enjoyed being involved with Church, school and/or local musical productions."
+  - "I like to encourage inactive church members to become involved Christians again."
+  - "It seems that people generally follow my advice."
+  - "I am able to understand difficult portions of God's word."
+  - "I receive great satisfaction in doing small or trivial tasks in church."
+  - "I desire to do the tasks which will free others for important ministry."
+  - "It is more effective to delegate a task to someone else rather than to do it myself."
+  - "I enjoy the responsibility for the achievement of group goals."
+  - "I appreciate the opportunity to financially support a critical situation."
+  - "I sense joy in comforting people in difficult situations."
+  - "The difference between truth and error is easily perceived by me."
+  - "I am often ready to believe God will lead us through a situation when others feel it is impossible."
+  - "People seem to feel very comfortable in my home."
+  - "I like to create things with my hands."
+  - "God consistently answers my prayers in tangible ways."
+  - "I have visited a person who was sick, prayed that God would make them physically whole, and the person got better."
+  - "I am able to relate well to Christians of different locations or cultures."
+  - "I appreciate the opportunity to proclaim God's word to others."
+  - "It is important for me to speak God's Word of warning and judgment in the world today."
+  - "It is a joy to share what Jesus means to me with an unchurched neighbor."
+  - "People like to bring their troubles and concerns to me because they feel I care."
+  - "One of the joys of my ministry is training people to be more effective Christians."
+  - "I feel secure in the fact that my musical ability will be of benefit to other people with whom I come in contact."
+  - "People who are feeling perplexed often come to me for encouragement and comfort."
+  - "I feel that I have a special insight in selecting the best alternative in a difficult situation."
+  - "I have a clear understanding of Biblical doctrines (teachings)."
+  - "I find more satisfaction in doing a job than finding someone else to do it."
+  - "I appreciate a ministry of helping other peoples to bear their burdens."
+  - "It is a thrill to inspire others to greater involvement in church work."
+  - "The development of effective plans for church ministry gives me great satisfaction."
+  - "It is a joy to see how much money I can give to the Lord."
+  - "I enjoy ministering to a person who is sick in the hospital."
+  - "I can judge well between the truthfulness and error of a given theological statement."
+  - "People seem to view me as one who believes everything is possible."
+  - "When missionaries come to our church I (would) like to have them come to my home."
+  - "I see that the results of my working with various objects in God's creation help to improve and beautify that which other people have not seen nor developed."
+  - "I faithfully pray for others recognizing that their effectiveness and total well-being depends on God's answer to prayers."
+  - "I like to participate in ministry to the physically or emotionally ill and pray for their recovery."
+  - "The thought of beginning a new church in a new community is exciting to me."
+  - "I enjoy training workers in the congregation."
+  - "In a Bible class it seems essential to share God's word even if it irritates others."
+  - "I feel a deep concern for the unreached people in my community."
+  - "I enjoy a close relationship with people in a one to one situation."
+  - "It is easy to organize materials for teaching a Bible class."
+  - "Leading others in singing songs of praise to God or for pure enjoyment is personally satisfying."
+  - "I would rather call on a delinquent family in my Church than an unchurched family."
+  - "I have a strong sense of confidence in my solutions to problems."
+  - "It is an exciting challenge to read and study a difficult book of the Bible."
+  - "I like to do things without attracting much attention."
+  - "If a family is facing a serious crisis, I enjoy the opportunity to help them."
+  - "There is great satisfaction in having others follow me in performing a task."
+  - "I would rather make decisions for the group than persuade them to reach the same decision."
+  - "I can give sacrificially because I know that God will meet my needs."
+  - "It is a special satisfaction to visit people who are confined to their homes."
+  - "I often seek the motives of a person and look beneath the words."
+  - "When people are discouraged I enjoy giving them a positive vision."
+  - "People seem to enjoy coming to my house."
+  - "There is pleasure in drawing, designing and/or painting various objects."
+  - "I find myself praying when I possibly should be doing other things."
+  - "I feel strongly that my prayers for a sick person effect wholeness for that person."
+  - "More than most, I have a strong desire to see all people of other communities and countries won to the Lord."
