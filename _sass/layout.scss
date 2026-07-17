@@ -17,6 +17,30 @@ nav .button {
 	top: 4px;
 }
 
+nav .nav-link {
+	display: none;
+	position: absolute;
+	right: 135px;
+	top: 50%;
+	transform: translateY(-50%);
+	line-height: normal;
+
+	@media #{$tablet} {
+		display: block;
+	}
+
+	a {
+		color: #fff;
+		text-decoration: none;
+		font-size: .9em;
+		opacity: .9;
+
+		&:hover {
+			opacity: 1;
+		}
+	}
+}
+
 .thirds {
 	@media #{$desktop} {
 		display: flex;
