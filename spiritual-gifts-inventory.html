@@ -14,7 +14,7 @@ permalink: /spiritual-gifts-inventory/
 <section id="sgi-gate">
 	<div class="container sgi-intro">
 		<h2>Find Out Your Spiritual Gifts!</h2>
-		<p>This inventory of 110 short statements takes about 15 minutes and reveals where God has gifted you across 22 areas of ministry. Enter your email to join our mailing list and begin.</p>
+		<p>This inventory of 110 short statements takes about 15 minutes and reveals where God has gifted you across 22 areas of ministry. Enter your email to join our mailing list and begin. Mountain Movers receives a copy of your results along with your email so we can help you put your gifts to work.</p>
 		<form id="sgi-gate-form" novalidate>
 			<input type="email" name="EMAIL" id="sgi-email" placeholder="Email" required>
 			<input type="submit" value="Start the Inventory">
@@ -74,8 +74,10 @@ permalink: /spiritual-gifts-inventory/
 	var TOTAL = {{ site.data.spiritual_gifts.questions | size }};
 	var MAX_PER_GIFT = 4 * TOTAL / GIFTS.length;
 	var SUBSCRIBE_URL = "https://mountainmovers.us17.list-manage.com/subscribe/post-json?u=41ee6d7cbb87953dd16e0cfa5&id=5563c68070";
+	var RESULTS_ENDPOINT = "{{ site.sgi_results_endpoint }}";
 	var KEY_SUBSCRIBED = "sgi.subscribed";
 	var KEY_ANSWERS = "sgi.answers";
+	var KEY_EMAIL = "sgi.email";
 
 	var gate = document.getElementById("sgi-gate");
 	var quiz = document.getElementById("sgi-quiz");
@@ -141,6 +143,7 @@ permalink: /spiritual-gifts-inventory/
 		}
 		function unlock(message) {
 			store(KEY_SUBSCRIBED, "1");
+			store(KEY_EMAIL, email);
 			gateMsg.className = "sgi-gate-msg success";
 			gateMsg.textContent = message;
 			gateMsg.hidden = false;
@@ -201,6 +204,7 @@ permalink: /spiritual-gifts-inventory/
 			return { name: name, score: total };
 		});
 		scores.sort(function (a, b) { return b.score - a.score; });
+		sendResults(scores);
 
 		var list = document.getElementById("sgi-results-list");
 		list.innerHTML = "";
@@ -219,6 +223,28 @@ permalink: /spiritual-gifts-inventory/
 		results.hidden = false;
 		window.scrollTo(0, 0);
 	});
+
+	// Fire-and-forget copy of the results to MMI; never blocks the taker's results.
+	function sendResults(scores) {
+		if (!RESULTS_ENDPOINT || !window.fetch) return;
+		function names(list) {
+			return list.map(function (g) { return g.name + " (" + g.score + ")"; }).join(", ");
+		}
+		try {
+			fetch(RESULTS_ENDPOINT, {
+				method: "POST",
+				headers: { "Content-Type": "application/json", "Accept": "application/json" },
+				body: JSON.stringify({
+					_subject: "Spiritual Gifts Inventory results",
+					_template: "table",
+					email: fetchStored(KEY_EMAIL) || "(not captured)",
+					dominant: names(scores.slice(0, 3)),
+					sub_dominant: names(scores.slice(3, 6)),
+					all_scores: names(scores)
+				})
+			}).catch(function () {});
+		} catch (e) {}
+	}
 
 	document.getElementById("sgi-retake").addEventListener("click", function () {
 		try { localStorage.removeItem(KEY_ANSWERS); } catch (e) {}
