@@ -52,7 +52,9 @@ newsletter_action: "//mc.us17.list-manage.com/signup-form/subscribe?u=41ee6d7cbb
 
 # Where completed Spiritual Gifts Inventory results are sent (email relay for
 # now; swap for the Google Apps Script URL once the Sheet is set up).
-sgi_results_endpoint: "https://formsubmit.co/ajax/dev@mountainmovers.org"
+# The hash is FormSubmit's alias for the destination mailbox, kept out of
+# page source so the address can't be scraped.
+sgi_results_endpoint: "https://formsubmit.co/ajax/7f48937430e53ec099756ea37141a101"
 
 gems:
   - jekyll-sitemap
