@@ -1,0 +1,117 @@
+---
+import { getCollection, getEntry } from "astro:content";
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const page = await getEntry("pages", "about");
+if (!page) throw new Error("Missing pages/about content entry");
+const { title, description, heading, intro, sections } = page.data;
+
+const timeline = (await getCollection("timeline")).sort((a, b) => a.data.order - b.data.order);
+---
+
+<BaseLayout title={title} description={description}>
+  <section class="page-hero">
+    <div class="container">
+      <h1>{heading}</h1>
+      <p class="lede">{intro}</p>
+    </div>
+  </section>
+
+  {
+    sections.map((section) => (
+      <section class="prose anim-fade-up">
+        <div class="container">
+          {section.heading && <h2>{section.heading}</h2>}
+          {section.body.map((paragraph) => (
+            <p>{paragraph}</p>
+          ))}
+        </div>
+      </section>
+    ))
+  }
+
+  <section class="history anim-fade-up">
+    <div class="container">
+      <h2>Our story</h2>
+      <ol class="timeline">
+        {
+          timeline.map((era) => (
+            <li>
+              <p class="years">{era.data.years}</p>
+              <h3>{era.data.heading}</h3>
+              <p>{era.data.body}</p>
+            </li>
+          ))
+        }
+      </ol>
+      <p>
+        Read more about <a href="/founder/">our founder, Wayne Hamit</a>.
+      </p>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .page-hero {
+    background: var(--color-glacier-900);
+    color: var(--color-snow);
+    padding-block: var(--space-6);
+  }
+
+  .lede {
+    margin-top: var(--space-3);
+    font-size: var(--text-lg);
+    color: var(--color-glacier-100);
+  }
+
+  .prose,
+  .history {
+    padding-block: var(--space-5);
+  }
+
+  .prose p {
+    margin-top: var(--space-3);
+  }
+
+  .history {
+    background: var(--color-bg-alt);
+  }
+
+  .timeline {
+    list-style: none;
+    margin: var(--space-5) 0;
+    padding: 0;
+    display: grid;
+    gap: var(--space-5);
+    border-left: 3px solid var(--color-glacier-500);
+  }
+
+  .timeline li {
+    padding-left: var(--space-4);
+    position: relative;
+    max-width: none;
+  }
+
+  .timeline li::before {
+    content: "";
+    position: absolute;
+    left: -8px;
+    top: 6px;
+    width: 13px;
+    height: 13px;
+    border-radius: 50%;
+    background: var(--color-glacier-700);
+    border: 2px solid var(--color-bg-alt);
+  }
+
+  .years {
+    font-size: var(--text-sm);
+    font-weight: var(--weight-bold);
+    color: var(--color-glacier-700);
+    letter-spacing: 0.06em;
+  }
+
+  .timeline h3 {
+    margin-block: var(--space-1) var(--space-2);
+  }
+</style>

@@ -1,0 +1,43 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import DonorboxEmbed from "../components/DonorboxEmbed.astro";
+---
+
+<BaseLayout
+  title="Donate"
+  description="Support Mountain Movers International — your gift bridges needs and resources on the world's hardest mission fields."
+>
+  <section class="page-hero">
+    <div class="container">
+      <h1>Make a Donation</h1>
+      <p class="lede">
+        Your gift goes to work where the need is greatest — standing with faithful workers in the
+        most hopeless situations.
+      </p>
+    </div>
+  </section>
+
+  <section class="donate-section">
+    <div class="container">
+      <DonorboxEmbed />
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .page-hero {
+    background: var(--color-glacier-900);
+    color: var(--color-snow);
+    padding-block: var(--space-6);
+  }
+
+  .lede {
+    margin-top: var(--space-3);
+    font-size: var(--text-lg);
+    color: var(--color-glacier-100);
+  }
+
+  .donate-section {
+    padding-block: var(--space-5);
+  }
+</style>

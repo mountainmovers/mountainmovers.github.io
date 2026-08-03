@@ -1,0 +1,87 @@
+---
+import { getEntry } from "astro:content";
+
+const company = await getEntry("site", "company");
+if (!company) throw new Error("Missing site/company content entry");
+const { mission_statement, address, email, company_name } = company.data;
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="container footer-grid">
+    <div>
+      <p>{mission_statement}</p>
+    </div>
+    <div>
+      <address>
+        <a href={`https://www.google.com/maps/place/${encodeURIComponent(address)}`}>{address}</a>
+      </address>
+      <p>
+        <a href={`mailto:${email}`}>{email}</a>
+      </p>
+    </div>
+    <div>
+      <ul class="footer-nav">
+        <li><a href="/about/">About</a></li>
+        <li><a href="/founder/">Our Founder</a></li>
+        <li><a href="/podcast/rss.xml">Podcast RSS</a></li>
+        <li><a href="/donate/">Donate</a></li>
+      </ul>
+    </div>
+  </div>
+  <p class="copyright">&copy; {year} {company_name}. All rights reserved.</p>
+</footer>
+
+<style>
+  .site-footer {
+    background: var(--color-glacier-900);
+    color: var(--color-glacier-200);
+    padding-block: var(--space-6) 0;
+    margin-top: var(--space-7);
+    font-size: var(--text-sm);
+  }
+
+  .footer-grid {
+    display: grid;
+    gap: var(--space-4);
+    padding-bottom: var(--space-5);
+  }
+
+  @media (min-width: 48rem) {
+    .footer-grid {
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: var(--space-5);
+    }
+  }
+
+  address {
+    font-style: normal;
+  }
+
+  .site-footer a {
+    color: var(--color-glacier-200);
+    text-decoration: none;
+  }
+
+  .site-footer a:hover {
+    color: var(--color-snow);
+    text-decoration: underline;
+  }
+
+  .footer-nav {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: var(--space-2);
+  }
+
+  .copyright {
+    text-align: center;
+    padding-block: var(--space-3);
+    margin: 0;
+    max-width: none;
+    font-size: var(--text-xs);
+    background: rgb(0 0 0 / 0.25);
+  }
+</style>

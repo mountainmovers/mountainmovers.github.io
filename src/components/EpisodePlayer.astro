@@ -1,0 +1,30 @@
+---
+interface Props {
+  title: string;
+  audioUrl: string;
+  audioType?: string;
+}
+
+const { title, audioUrl, audioType = "audio/mpeg" } = Astro.props;
+---
+
+<div class="player">
+  <audio controls preload="metadata" aria-label={`Play episode: ${title}`}>
+    <source src={audioUrl} type={audioType} />
+    Your browser doesn't support embedded audio.
+    <a href={audioUrl}>Download the episode</a>.
+  </audio>
+</div>
+
+<style>
+  .player {
+    background: var(--color-bg-alt);
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius);
+    padding: var(--space-3);
+  }
+
+  audio {
+    width: 100%;
+  }
+</style>

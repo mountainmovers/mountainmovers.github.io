@@ -1,0 +1,61 @@
+---
+import { getEntry } from "astro:content";
+
+const company = await getEntry("site", "company");
+if (!company) throw new Error("Missing site/company content entry");
+const { u, list_id, honeypot } = company.data.mailchimp;
+const action = `https://mountainmovers.us17.list-manage.com/subscribe/post?u=${u}&id=${list_id}`;
+---
+
+<form class="newsletter-form" action={action} method="post" target="_blank">
+  <label class="sr-only" for="newsletter-email">Email address</label>
+  <input
+    id="newsletter-email"
+    type="email"
+    name="EMAIL"
+    placeholder="Email address"
+    autocomplete="email"
+    required
+  />
+  <!-- Mailchimp bot honeypot — do not remove -->
+  <div class="hp" aria-hidden="true">
+    <input type="text" name={honeypot} tabindex="-1" value="" />
+  </div>
+  <button type="submit">Subscribe</button>
+</form>
+
+<style>
+  .newsletter-form {
+    display: flex;
+    gap: var(--space-2);
+    flex-wrap: wrap;
+  }
+
+  input[type="email"] {
+    flex: 1 1 16rem;
+    padding: var(--space-2) var(--space-3);
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius);
+    font-size: var(--text-base);
+  }
+
+  button {
+    padding: var(--space-2) var(--space-4);
+    background: var(--color-glacier-700);
+    color: var(--color-snow);
+    border: none;
+    border-radius: var(--radius);
+    font-weight: var(--weight-semibold);
+    cursor: pointer;
+    transition: background var(--duration) var(--ease);
+  }
+
+  button:hover {
+    background: var(--color-glacier-900);
+  }
+
+  .hp {
+    position: absolute;
+    left: -5000px;
+  }
+</style>

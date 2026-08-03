@@ -1,0 +1,102 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+// Drafts are excluded from every build output — see ADR 0005.
+const episodes = (await getCollection("episodes", ({ data }) => !data.draft)).sort(
+  (a, b) => b.data.published.valueOf() - a.data.published.valueOf(),
+);
+---
+
+<BaseLayout
+  title="Podcast"
+  description="The Mountain Movers podcast — stories from the world's hardest mission fields and teaching that helps you put your gifts to work."
+>
+  <section class="page-hero">
+    <div class="container">
+      <h1>The Mountain Movers Podcast</h1>
+      <p class="lede">
+        Stories from the world's hardest mission fields, and teaching that helps you put your
+        gifts to work for God.
+      </p>
+    </div>
+  </section>
+
+  <section class="episodes">
+    <div class="container">
+      {
+        episodes.length === 0 ? (
+          <div class="coming-soon">
+            <h2>First episodes coming soon</h2>
+            <p>
+              We're in the studio. Subscribe to the newsletter on the
+              <a href="/contact/">contact page</a> to hear the moment episode one drops — or grab
+              the <a href="/podcast/rss.xml">RSS feed</a> for your podcast app.
+            </p>
+          </div>
+        ) : (
+          <ol class="episode-list">
+            {episodes.map((episode) => (
+              <li>
+                <article>
+                  <p class="meta">
+                    S{episode.data.season} · E{episode.data.episode_number} ·{" "}
+                    {episode.data.published.toLocaleDateString("en-US", { dateStyle: "long" })}
+                  </p>
+                  <h2>
+                    <a href={`/podcast/${episode.id}/`}>{episode.data.title}</a>
+                  </h2>
+                  <p>{episode.data.description}</p>
+                </article>
+              </li>
+            ))}
+          </ol>
+        )
+      }
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .page-hero {
+    background: var(--color-glacier-900);
+    color: var(--color-snow);
+    padding-block: var(--space-6);
+  }
+
+  .lede {
+    margin-top: var(--space-3);
+    font-size: var(--text-lg);
+    color: var(--color-glacier-100);
+  }
+
+  .episodes {
+    padding-block: var(--space-5);
+  }
+
+  .coming-soon p {
+    margin-top: var(--space-3);
+  }
+
+  .episode-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: var(--space-5);
+  }
+
+  .meta {
+    font-size: var(--text-sm);
+    color: var(--color-glacier-700);
+    font-weight: var(--weight-semibold);
+  }
+
+  .episode-list h2 {
+    margin-block: var(--space-1) var(--space-2);
+  }
+
+  .episode-list h2 a {
+    text-decoration: none;
+  }
+</style>

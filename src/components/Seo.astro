@@ -1,0 +1,32 @@
+---
+interface Props {
+  title: string;
+  description: string;
+  ogType?: string;
+  image?: string;
+}
+
+const { title, description, ogType = "website", image = "/siteicon.png" } = Astro.props;
+
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const imageUrl = new URL(image, Astro.site);
+// Preview builds (GitLab Pages) must never be indexed; the flag is set in
+// .gitlab-ci.yml. Production builds omit it.
+const noindex = import.meta.env.PUBLIC_NOINDEX === "true";
+---
+
+<title>{title}</title>
+<meta name="description" content={description} />
+<link rel="canonical" href={canonical} />
+{noindex && <meta name="robots" content="noindex, nofollow" />}
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:type" content={ogType} />
+<meta property="og:url" content={canonical} />
+<meta property="og:image" content={imageUrl} />
+<meta property="og:site_name" content="Mountain Movers International" />
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={imageUrl} />
+<slot />

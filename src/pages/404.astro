@@ -1,0 +1,29 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout title="Page Not Found" description="The page you were looking for could not be found.">
+  <section class="not-found">
+    <div class="container">
+      <h1>Page not found</h1>
+      <p>The mountain you're looking for has moved. Try one of these:</p>
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/spiritual-gifts-inventory/">Spiritual Gifts Inventory</a></li>
+        <li><a href="/podcast/">Podcast</a></li>
+        <li><a href="/donate/">Donate</a></li>
+      </ul>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .not-found {
+    padding-block: var(--space-7);
+  }
+
+  .not-found p,
+  .not-found ul {
+    margin-top: var(--space-3);
+  }
+</style>

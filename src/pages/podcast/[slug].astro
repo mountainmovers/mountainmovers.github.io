@@ -1,0 +1,93 @@
+---
+import { getCollection, render } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import EpisodePlayer from "../../components/EpisodePlayer.astro";
+
+export async function getStaticPaths() {
+  // Drafts never get pages — see ADR 0005.
+  const episodes = await getCollection("episodes", ({ data }) => !data.draft);
+  return episodes.map((episode) => ({ params: { slug: episode.id }, props: { episode } }));
+}
+
+const { episode } = Astro.props;
+const { Content } = await render(episode);
+
+const episodeJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "PodcastEpisode",
+  name: episode.data.title,
+  description: episode.data.description,
+  episodeNumber: episode.data.episode_number,
+  datePublished: episode.data.published.toISOString().slice(0, 10),
+  url: new URL(`/podcast/${episode.id}/`, Astro.site).toString(),
+  associatedMedia: episode.data.audio_url
+    ? { "@type": "MediaObject", contentUrl: episode.data.audio_url }
+    : undefined,
+  partOfSeries: { "@type": "PodcastSeries", name: "The Mountain Movers Podcast" },
+};
+---
+
+<BaseLayout title={episode.data.title} description={episode.data.description} ogType="article">
+  <script type="application/ld+json" set:html={JSON.stringify(episodeJsonLd)} slot="head" />
+  <section class="page-hero">
+    <div class="container">
+      <p class="meta">
+        Season {episode.data.season} · Episode {episode.data.episode_number} ·{" "}
+        {episode.data.published.toLocaleDateString("en-US", { dateStyle: "long" })}
+        {episode.data.duration && ` · ${episode.data.duration}`}
+      </p>
+      <h1>{episode.data.title}</h1>
+    </div>
+  </section>
+
+  <section class="episode">
+    <div class="container">
+      {
+        episode.data.audio_url && (
+          <EpisodePlayer
+            title={episode.data.title}
+            audioUrl={episode.data.audio_url}
+            audioType={episode.data.audio_type}
+          />
+        )
+      }
+      <div class="notes">
+        <Content />
+      </div>
+      <p class="back">
+        <a href="/podcast/">&larr; All episodes</a>
+      </p>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .page-hero {
+    background: var(--color-glacier-900);
+    color: var(--color-snow);
+    padding-block: var(--space-6);
+  }
+
+  .meta {
+    font-size: var(--text-sm);
+    color: var(--color-glacier-200);
+    font-weight: var(--weight-semibold);
+    margin-bottom: var(--space-2);
+  }
+
+  .episode {
+    padding-block: var(--space-5);
+  }
+
+  .notes {
+    margin-top: var(--space-4);
+  }
+
+  .notes :global(p + p) {
+    margin-top: var(--space-3);
+  }
+
+  .back {
+    margin-top: var(--space-5);
+  }
+</style>

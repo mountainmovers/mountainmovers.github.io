@@ -1,0 +1,197 @@
+---
+import { getEntry } from "astro:content";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import NewsletterSignup from "../components/NewsletterSignup.astro";
+import DonorboxEmbed from "../components/DonorboxEmbed.astro";
+
+const page = await getEntry("pages", "home");
+if (!page) throw new Error("Missing pages/home content entry");
+const { title, description, heading, intro, sections } = page.data;
+const [mission, sgiCallout, newsletter, donate] = sections;
+---
+
+<BaseLayout title={title} description={description}>
+  <section class="hero">
+    <div class="container">
+      <h1>{heading}</h1>
+      <p class="hero-intro">{intro}</p>
+      <div class="hero-actions">
+        <a class="btn btn-gold" href="/donate/">Donate Today</a>
+        <a class="btn btn-ghost" href="/about/">Learn More</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="mission anim-fade-up">
+    <div class="container">
+      <h2>{mission.heading}</h2>
+      <blockquote>
+        <p class="quote">{mission.quote}</p>
+        <cite>{mission.attribution}</cite>
+      </blockquote>
+      {mission.body.map((paragraph) => <p>{paragraph}</p>)}
+    </div>
+  </section>
+
+  <section class="sgi-callout anim-fade-up">
+    <div class="container">
+      <h2>{sgiCallout.heading}</h2>
+      {sgiCallout.body.map((paragraph) => <p>{paragraph}</p>)}
+      <a class="btn btn-blue" href="/spiritual-gifts-inventory/">Take the Inventory</a>
+    </div>
+  </section>
+
+  <section class="newsletter anim-fade-up">
+    <div class="container">
+      <h2>{newsletter.heading}</h2>
+      {newsletter.body.map((paragraph) => <p>{paragraph}</p>)}
+      <NewsletterSignup />
+    </div>
+  </section>
+
+  <section id="donate" class="donate anim-fade-up">
+    <div class="container">
+      <h2>{donate.heading}</h2>
+      <DonorboxEmbed />
+      <blockquote>
+        <p class="quote">{donate.quote}</p>
+        <cite>{donate.attribution}</cite>
+      </blockquote>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  section {
+    padding-block: var(--space-6);
+  }
+
+  .hero {
+    background:
+      linear-gradient(rgb(20 53 94 / 0.72), rgb(20 53 94 / 0.72)),
+      url("/images/home-bg-custom.jpg") center / cover no-repeat;
+    color: var(--color-snow);
+    padding-block: var(--space-7);
+    text-align: center;
+  }
+
+  .hero h1 {
+    font-size: var(--text-hero);
+    margin-inline: auto;
+    max-width: 22ch;
+  }
+
+  .hero-intro {
+    margin: var(--space-4) auto 0;
+    font-size: var(--text-lg);
+    max-width: 55ch;
+    color: var(--color-glacier-100);
+  }
+
+  .hero-actions {
+    margin-top: var(--space-5);
+    display: flex;
+    gap: var(--space-3);
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    display: inline-block;
+    padding: var(--space-3) var(--space-5);
+    border-radius: var(--radius);
+    font-weight: var(--weight-semibold);
+    text-decoration: none;
+    transition: background var(--duration) var(--ease);
+  }
+
+  .btn-gold {
+    background: var(--color-gold);
+    color: var(--color-ink);
+  }
+
+  .btn-gold:hover {
+    background: var(--color-gold-bright);
+    color: var(--color-ink);
+  }
+
+  .btn-ghost {
+    border: 2px solid var(--color-snow);
+    color: var(--color-snow);
+  }
+
+  .btn-ghost:hover {
+    background: rgb(255 255 255 / 0.12);
+    color: var(--color-snow);
+  }
+
+  .btn-blue {
+    background: var(--color-glacier-700);
+    color: var(--color-snow);
+  }
+
+  .btn-blue:hover {
+    background: var(--color-glacier-900);
+    color: var(--color-snow);
+  }
+
+  blockquote {
+    border-left: 4px solid var(--color-glacier-500);
+    padding-left: var(--space-4);
+    margin-block: var(--space-4);
+  }
+
+  .quote {
+    font-family: var(--font-display);
+    font-size: var(--text-lg);
+    font-style: italic;
+    color: var(--color-text-muted);
+  }
+
+  cite {
+    display: block;
+    margin-top: var(--space-2);
+    font-style: normal;
+    font-weight: var(--weight-semibold);
+    color: var(--color-glacier-700);
+  }
+
+  .mission p + p {
+    margin-top: var(--space-3);
+  }
+
+  .sgi-callout {
+    background: var(--color-bg-alt);
+    text-align: center;
+  }
+
+  .sgi-callout p {
+    margin-inline: auto;
+  }
+
+  .sgi-callout .btn {
+    margin-top: var(--space-4);
+  }
+
+  .newsletter .container {
+    max-width: 44rem;
+  }
+
+  .newsletter p {
+    margin-block: var(--space-3);
+  }
+
+  .donate {
+    background: var(--color-bg-alt);
+  }
+
+  .donate h2 {
+    text-align: center;
+    margin-bottom: var(--space-5);
+  }
+
+  .donate blockquote {
+    max-width: var(--measure);
+    margin-inline: auto;
+  }
+</style>

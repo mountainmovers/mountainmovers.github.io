@@ -1,0 +1,95 @@
+---
+import { getCollection, render } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+const ministries = (await getCollection("ministries")).sort((a, b) => a.data.order - b.data.order);
+const rendered = await Promise.all(
+  ministries.map(async (ministry) => ({ ministry, Content: (await render(ministry)).Content })),
+);
+---
+
+<BaseLayout
+  title="Ministries"
+  description="A quarter century of Mountain Movers International ministry — discipleship, domestic partnerships, and international fields across more than 40 countries."
+>
+  <section class="page-hero">
+    <div class="container">
+      <h1>Ministries</h1>
+      <p class="lede">
+        Since 2000, MMI has bridged needs and resources across more than 40 countries — through
+        discipleship, domestic partnerships, and long-term international fields.
+      </p>
+    </div>
+  </section>
+
+  <section class="ministry-list">
+    <div class="container">
+      {
+        rendered.map(({ ministry, Content }) => (
+          <article class="ministry anim-fade-up">
+            <header>
+              <h2>{ministry.data.title}</h2>
+              <p class="meta">
+                {ministry.data.era && <span>{ministry.data.era}</span>}
+                {ministry.data.countries.length > 0 && (
+                  <span>{ministry.data.countries.join(" · ")}</span>
+                )}
+              </p>
+              <p class="summary">{ministry.data.summary}</p>
+            </header>
+            <div class="body">
+              <Content />
+            </div>
+          </article>
+        ))
+      }
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .page-hero {
+    background: var(--color-glacier-900);
+    color: var(--color-snow);
+    padding-block: var(--space-6);
+  }
+
+  .lede {
+    margin-top: var(--space-3);
+    font-size: var(--text-lg);
+    color: var(--color-glacier-100);
+  }
+
+  .ministry-list {
+    padding-block: var(--space-5);
+  }
+
+  .ministry {
+    padding-block: var(--space-5);
+  }
+
+  .ministry + .ministry {
+    border-top: 1px solid var(--color-line);
+  }
+
+  .meta {
+    display: flex;
+    gap: var(--space-3);
+    flex-wrap: wrap;
+    font-size: var(--text-sm);
+    color: var(--color-glacier-700);
+    font-weight: var(--weight-semibold);
+    margin-top: var(--space-1);
+  }
+
+  .summary {
+    font-family: var(--font-display);
+    font-style: italic;
+    color: var(--color-text-muted);
+    margin-top: var(--space-2);
+  }
+
+  .body :global(p) {
+    margin-top: var(--space-3);
+  }
+</style>

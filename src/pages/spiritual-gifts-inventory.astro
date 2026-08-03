@@ -1,0 +1,343 @@
+---
+import { getEntry } from "astro:content";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import DonorboxEmbed from "../components/DonorboxEmbed.astro";
+
+// Ported from the Jekyll page. Element IDs, class names, endpoints, and
+// localStorage keys are frozen — see ADR 0004. Only the visual styling is new.
+const inventory = await getEntry("sgi", "inventory");
+const company = await getEntry("site", "company");
+if (!inventory || !company) throw new Error("Missing sgi/site content entries");
+
+const { questions, scale, gifts } = inventory.data;
+const { u, list_id } = company.data.mailchimp;
+const sgiConfig = {
+  gifts: gifts.map((gift) => gift.name),
+  total: questions.length,
+  subscribeUrl: `https://mountainmovers.us17.list-manage.com/subscribe/post-json?u=${u}&id=${list_id}`,
+  resultsEndpoint: company.data.sgi_results_endpoint,
+};
+---
+
+<BaseLayout
+  title="Spiritual Gifts Inventory"
+  description="Find out your spiritual gifts with the Mountain Movers International Spiritual Gifts Inventory."
+>
+  <div class="sgi-hero">
+    <div class="container">
+      <h1>Spiritual Gifts Inventory</h1>
+      <p>If I have a faith that can move mountains, but have not love, I am nothing... (1 Cor. 13:2b)</p>
+    </div>
+  </div>
+
+  <section id="sgi-gate">
+    <div class="container sgi-intro">
+      <h2>Find Out Your Spiritual Gifts!</h2>
+      <p>
+        This inventory of 110 short statements takes about 15 minutes and reveals where God has
+        gifted you across 22 areas of ministry. Enter your email to join our mailing list and
+        begin. Mountain Movers receives a copy of your results along with your email so we can
+        help you put your gifts to work.
+      </p>
+      <form id="sgi-gate-form" novalidate>
+        <label class="sr-only" for="sgi-email">Email address</label>
+        <input type="email" name="EMAIL" id="sgi-email" placeholder="Email" required />
+        <input type="submit" value="Start the Inventory" />
+      </form>
+      <p class="sgi-gate-msg" id="sgi-gate-msg" hidden></p>
+    </div>
+  </section>
+
+  <section id="sgi-quiz" hidden>
+    <div class="sgi-progress">
+      <div class="container">
+        <p><span id="sgi-progress-count">0</span> of {questions.length} answered</p>
+        <div class="bar"><div class="fill" id="sgi-progress-fill"></div></div>
+      </div>
+    </div>
+    <div class="container">
+      <p>
+        Select the degree to which you agree with each statement, then click the "Find Out Your
+        Scores" button at the end of the test.
+      </p>
+      <form id="sgi-quiz-form" novalidate>
+        {
+          questions.map((question, index) => (
+            <fieldset class="sgi-question" id={`sgi-q${index + 1}`}>
+              <p class="sgi-text">
+                {index + 1}) {question}
+              </p>
+              <div class="sgi-options">
+                {scale.map((option) => (
+                  <label>
+                    <input type="radio" name={`q${index + 1}`} value={option.value} />
+                    {option.label}
+                  </label>
+                ))}
+              </div>
+            </fieldset>
+          ))
+        }
+        <p class="sgi-quiz-msg" id="sgi-quiz-msg" hidden></p>
+        <input type="submit" value="Find Out Your Scores" />
+      </form>
+    </div>
+  </section>
+
+  <section id="sgi-results" hidden>
+    <div class="container">
+      <h2>Your Spiritual Gifts</h2>
+      <p class="sgi-result-key">
+        Each gift is scored out of 20. Your top three gifts are dominant; the next three are
+        sub-dominant.
+      </p>
+      <div id="sgi-results-list"></div>
+      <div class="sgi-retake-wrap">
+        <button id="sgi-retake" type="button">Retake the Inventory</button>
+      </div>
+    </div>
+    <div class="container">
+      <h2>Put Your Gifts to Work</h2>
+      <p class="sgi-donate-note">
+        This inventory is a free ministry of Mountain Movers International. If it has blessed
+        you, please consider a donation to help us keep moving mountains.
+      </p>
+      <DonorboxEmbed />
+    </div>
+  </section>
+
+  <script type="application/json" id="sgi-config" set:html={JSON.stringify(sgiConfig)} />
+  <script src="../scripts/sgi.js"></script>
+</BaseLayout>
+
+<style>
+  .sgi-hero {
+    background: var(--color-glacier-900);
+    color: var(--color-snow);
+    padding-block: var(--space-6);
+    text-align: center;
+  }
+
+  .sgi-hero p {
+    color: var(--color-glacier-100);
+    margin: var(--space-2) auto 0;
+    font-family: var(--font-display);
+    font-style: italic;
+  }
+
+  section {
+    padding-block: var(--space-5);
+  }
+
+  .sgi-intro {
+    max-width: 44rem;
+    text-align: center;
+  }
+
+  .sgi-intro p {
+    margin-block: var(--space-3);
+  }
+
+  #sgi-gate-form {
+    display: flex;
+    gap: var(--space-2);
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: var(--space-4);
+  }
+
+  #sgi-gate-form input[type="email"] {
+    flex: 1 1 16rem;
+    padding: var(--space-3);
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius);
+    font-size: var(--text-base);
+  }
+
+  #sgi-gate-form input[type="submit"],
+  #sgi-quiz-form input[type="submit"] {
+    padding: var(--space-3) var(--space-5);
+    background: var(--color-glacier-700);
+    color: var(--color-snow);
+    border: none;
+    border-radius: var(--radius);
+    font-weight: var(--weight-semibold);
+    cursor: pointer;
+    transition: background var(--duration) var(--ease);
+  }
+
+  #sgi-gate-form input[type="submit"]:hover,
+  #sgi-quiz-form input[type="submit"]:hover {
+    background: var(--color-glacier-900);
+  }
+
+  .sgi-gate-msg,
+  .sgi-quiz-msg {
+    text-align: center;
+    color: #c0392b;
+    margin-top: var(--space-3);
+    margin-inline: auto;
+  }
+
+  .sgi-gate-msg.success {
+    color: #2e7d43;
+  }
+
+  .sgi-progress {
+    position: sticky;
+    top: 68px;
+    z-index: 40;
+    background: var(--color-bg);
+    padding-block: var(--space-2);
+    border-bottom: 1px solid var(--color-line);
+    margin-bottom: var(--space-4);
+  }
+
+  .sgi-progress p {
+    margin-bottom: var(--space-1);
+    font-size: var(--text-sm);
+  }
+
+  .sgi-progress .bar {
+    height: 6px;
+    background: var(--color-line);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+
+  .sgi-progress .fill {
+    height: 100%;
+    width: 0;
+    background: var(--color-glacier-500);
+    transition: width 0.2s;
+  }
+
+  .sgi-question {
+    border: 0;
+    border-bottom: 1px solid var(--color-line);
+    margin: 0;
+    padding: var(--space-4) 0;
+  }
+
+  .sgi-text {
+    font-size: var(--text-lg);
+    margin-bottom: var(--space-3);
+  }
+
+  .sgi-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+  }
+
+  .sgi-options label {
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius);
+    padding: var(--space-2) var(--space-3);
+    cursor: pointer;
+    font-size: var(--text-sm);
+    transition:
+      background var(--duration) var(--ease),
+      border-color var(--duration) var(--ease);
+  }
+
+  .sgi-options label:hover {
+    border-color: var(--color-glacier-500);
+  }
+
+  .sgi-options input {
+    margin-right: var(--space-1);
+  }
+
+  .sgi-options :global(label.selected) {
+    background: var(--color-glacier-700);
+    border-color: var(--color-glacier-900);
+    color: var(--color-snow);
+  }
+
+  :global(.sgi-question.unanswered) .sgi-text {
+    color: #c0392b;
+  }
+
+  #sgi-quiz-form input[type="submit"] {
+    display: block;
+    margin: var(--space-5) auto 0;
+  }
+
+  #sgi-results h2 {
+    text-align: center;
+  }
+
+  .sgi-result-key {
+    text-align: center;
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    margin-block: var(--space-2) var(--space-4);
+    margin-inline: auto;
+  }
+
+  #sgi-results-list :global(.sgi-result) {
+    display: flex;
+    align-items: center;
+    margin-block: var(--space-2);
+    gap: var(--space-2);
+  }
+
+  #sgi-results-list :global(.sgi-result .name) {
+    width: 150px;
+    flex-shrink: 0;
+  }
+
+  #sgi-results-list :global(.sgi-result .bar) {
+    flex-grow: 1;
+    background: var(--color-line);
+    height: 18px;
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+  }
+
+  #sgi-results-list :global(.sgi-result .fill) {
+    height: 100%;
+    background: var(--color-mist);
+  }
+
+  #sgi-results-list :global(.sgi-result.dominant .fill) {
+    background: var(--color-glacier-700);
+  }
+
+  #sgi-results-list :global(.sgi-result.sub-dominant .fill) {
+    background: var(--color-glacier-500);
+  }
+
+  #sgi-results-list :global(.sgi-result .score) {
+    width: 55px;
+    flex-shrink: 0;
+    text-align: right;
+    font-size: var(--text-sm);
+  }
+
+  .sgi-retake-wrap {
+    text-align: center;
+    margin-top: var(--space-5);
+  }
+
+  #sgi-retake {
+    padding: var(--space-3) var(--space-5);
+    background: none;
+    border: 2px solid var(--color-glacier-700);
+    color: var(--color-glacier-700);
+    border-radius: var(--radius);
+    font-weight: var(--weight-semibold);
+    cursor: pointer;
+  }
+
+  #sgi-retake:hover {
+    background: var(--color-glacier-100);
+  }
+
+  .sgi-donate-note {
+    text-align: center;
+    margin-inline: auto;
+    margin-bottom: var(--space-4);
+  }
+</style>

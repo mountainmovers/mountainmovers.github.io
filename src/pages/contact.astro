@@ -1,0 +1,71 @@
+---
+import { getEntry } from "astro:content";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import NewsletterSignup from "../components/NewsletterSignup.astro";
+
+const company = await getEntry("site", "company");
+if (!company) throw new Error("Missing site/company content entry");
+const { address, email } = company.data;
+---
+
+<BaseLayout
+  title="Contact"
+  description="Get in touch with Mountain Movers International."
+>
+  <section class="page-hero">
+    <div class="container">
+      <h1>Contact Us</h1>
+    </div>
+  </section>
+
+  <section class="contact">
+    <div class="container contact-grid">
+      <div>
+        <h2>Write to us</h2>
+        <address>
+          <a href={`https://www.google.com/maps/place/${encodeURIComponent(address)}`}>{address}</a>
+        </address>
+        <p>
+          <a href={`mailto:${email}`}>{email}</a>
+        </p>
+      </div>
+      <div>
+        <h2>Stay connected</h2>
+        <p>Hear our latest progress reports and the most urgent needs.</p>
+        <NewsletterSignup />
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .page-hero {
+    background: var(--color-glacier-900);
+    color: var(--color-snow);
+    padding-block: var(--space-6);
+  }
+
+  .contact {
+    padding-block: var(--space-5);
+  }
+
+  .contact-grid {
+    display: grid;
+    gap: var(--space-5);
+  }
+
+  @media (min-width: 48rem) {
+    .contact-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  address {
+    font-style: normal;
+    margin-block: var(--space-3);
+  }
+
+  .contact p {
+    margin-block: var(--space-3);
+  }
+</style>

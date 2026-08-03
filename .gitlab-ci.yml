@@ -1,0 +1,29 @@
+# Non-production PREVIEW deploy to GitLab Pages (docs/adr/0002).
+# Builds only the redesign/astro branch; the preview is noindexed and its
+# canonical origin is the gitlab.io URL, never www.mountainmovers.org.
+image: node:22
+
+pages:
+  stage: deploy
+  rules:
+    - if: $CI_COMMIT_BRANCH == "redesign/astro"
+  variables:
+    PUBLIC_NOINDEX: "true"
+    SITE_URL: "$CI_PAGES_URL"
+  cache:
+    key:
+      files:
+        - package-lock.json
+    paths:
+      - node_modules/
+  script:
+    - npm ci
+    - npm run build
+    # GitLab Pages serves the "public" directory; CNAME is a GitHub-ism that
+    # must not ship with the preview.
+    - rm -f dist/CNAME
+    - rm -rf public
+    - mv dist public
+  artifacts:
+    paths:
+      - public

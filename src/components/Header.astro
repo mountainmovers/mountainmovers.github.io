@@ -1,0 +1,171 @@
+---
+// Site header. Light background so the heritage logo (dark serif wordmark,
+// ice/glacier peaks) sits on its native ground.
+// TODO(asset): public/images/logo-heritage.jpg is a low-res Wayback capture —
+// replace with the high-resolution original when Josh supplies the file.
+const links = [
+  { href: "/about/", label: "About" },
+  { href: "/ministries/", label: "Ministries" },
+  { href: "/podcast/", label: "Podcast" },
+  { href: "/spiritual-gifts-inventory/", label: "Spiritual Gifts" },
+  { href: "/contact/", label: "Contact" },
+];
+const current = Astro.url.pathname;
+---
+
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand" href="/">
+      <img src="/images/logo-heritage.jpg" alt="Mountain Movers International" width="87" height="61" />
+    </a>
+    <nav aria-label="Main">
+      <button class="menu-toggle" aria-expanded="false" aria-controls="site-nav">
+        <span class="sr-only">Menu</span>
+        <span class="menu-bars" aria-hidden="true"></span>
+      </button>
+      <ul id="site-nav" class="nav-list">
+        {
+          links.map((link) => (
+            <li>
+              <a href={link.href} aria-current={current === link.href ? "page" : undefined}>
+                {link.label}
+              </a>
+            </li>
+          ))
+        }
+        <li>
+          <a class="donate-cta" href="/donate/">Donate</a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    background: var(--color-bg);
+    border-bottom: 1px solid var(--color-line);
+    position: sticky;
+    top: 0;
+    z-index: 50;
+  }
+
+  .header-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-3);
+    padding-block: var(--space-2);
+  }
+
+  .brand img {
+    width: auto;
+    height: 52px;
+  }
+
+  .nav-list {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .nav-list a {
+    font-size: var(--text-sm);
+    font-weight: var(--weight-medium);
+    color: var(--color-text);
+    text-decoration: none;
+  }
+
+  .nav-list a:hover,
+  .nav-list a[aria-current="page"] {
+    color: var(--color-link);
+  }
+
+  .nav-list a[aria-current="page"] {
+    text-decoration: underline;
+    text-underline-offset: 6px;
+    text-decoration-color: var(--color-glacier-500);
+    text-decoration-thickness: 2px;
+  }
+
+  .donate-cta {
+    background: var(--color-gold);
+    color: var(--color-ink) !important;
+    padding: var(--space-2) var(--space-3);
+    border-radius: var(--radius);
+    transition: background var(--duration) var(--ease);
+  }
+
+  .donate-cta:hover {
+    background: var(--color-gold-bright);
+  }
+
+  .menu-toggle {
+    display: none;
+    background: none;
+    border: none;
+    padding: var(--space-2);
+    cursor: pointer;
+  }
+
+  .menu-bars,
+  .menu-bars::before,
+  .menu-bars::after {
+    display: block;
+    width: 22px;
+    height: 2px;
+    background: var(--color-ink);
+    position: relative;
+  }
+
+  .menu-bars::before,
+  .menu-bars::after {
+    content: "";
+    position: absolute;
+  }
+
+  .menu-bars::before {
+    top: -7px;
+  }
+
+  .menu-bars::after {
+    top: 7px;
+  }
+
+  @media (max-width: 47.9rem) {
+    .menu-toggle {
+      display: block;
+    }
+
+    .nav-list {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 0;
+      background: var(--color-bg);
+      border-bottom: 1px solid var(--color-line);
+      padding: var(--space-3);
+      box-shadow: var(--shadow-md);
+    }
+
+    .nav-list.is-open {
+      display: flex;
+    }
+
+    .nav-list li {
+      padding-block: var(--space-2);
+    }
+
+    .donate-cta {
+      display: inline-block;
+      text-align: center;
+    }
+  }
+</style>

@@ -1,0 +1,80 @@
+---
+import { getEntry, render } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+const founder = await getEntry("founder", "wayne-hamit");
+if (!founder || !founder.data.published) throw new Error("Missing founder entry");
+const { Content } = await render(founder);
+
+const personJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: founder.data.title,
+  jobTitle: founder.data.role,
+  worksFor: { "@type": "Organization", name: "Mountain Movers International" },
+  url: new URL("/founder/", Astro.site).toString(),
+};
+---
+
+<BaseLayout
+  title={`${founder.data.title} — Founder`}
+  description="Rev. C. Wayne Hamit founded Mountain Movers International in 2000 to serve as a bridge between needs and resources."
+  ogType="profile"
+>
+  <script type="application/ld+json" set:html={JSON.stringify(personJsonLd)} slot="head" />
+  <section class="page-hero">
+    <div class="container">
+      <p class="eyebrow">{founder.data.role}</p>
+      <h1>{founder.data.title}</h1>
+    </div>
+  </section>
+
+  <section class="bio anim-fade-up">
+    <div class="container prose-content">
+      <Content />
+    </div>
+  </section>
+
+  <section class="more anim-fade-up">
+    <div class="container">
+      <h2>Hear from Wayne</h2>
+      <p>
+        Wayne's teaching is coming to the <a href="/podcast/">Mountain Movers podcast</a> — decades
+        of ministry from a pastor who teaches from inside the world's experiences, not above them.
+      </p>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .page-hero {
+    background: var(--color-glacier-900);
+    color: var(--color-snow);
+    padding-block: var(--space-6);
+  }
+
+  .eyebrow {
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-size: var(--text-sm);
+    color: var(--color-glacier-200);
+    margin-bottom: var(--space-2);
+  }
+
+  .bio,
+  .more {
+    padding-block: var(--space-5);
+  }
+
+  .prose-content :global(p + p) {
+    margin-top: var(--space-3);
+  }
+
+  .more {
+    background: var(--color-bg-alt);
+  }
+
+  .more p {
+    margin-top: var(--space-3);
+  }
+</style>
