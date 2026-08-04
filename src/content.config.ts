@@ -19,6 +19,9 @@ const site = defineCollection({
       honeypot: z.string(),
     }),
     sgi_results_endpoint: z.string().url(),
+    // Interim: newsletter signups relay to the same FormSubmit alias while
+    // the Mailchimp account is dead (2026-08-04) — swap to Kit when created.
+    newsletter_endpoint: z.string().url(),
   }),
 });
 

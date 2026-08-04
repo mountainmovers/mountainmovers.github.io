@@ -11,5 +11,6 @@
     "list_id": "5563c68070",
     "honeypot": "b_41ee6d7cbb87953dd16e0cfa5_5563c68070"
   },
-  "sgi_results_endpoint": "https://formsubmit.co/ajax/7f48937430e53ec099756ea37141a101"
+  "sgi_results_endpoint": "https://formsubmit.co/ajax/7f48937430e53ec099756ea37141a101",
+  "newsletter_endpoint": "https://formsubmit.co/ajax/7f48937430e53ec099756ea37141a101"
 }

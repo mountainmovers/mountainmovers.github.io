@@ -1,28 +1,68 @@
 ---
 import { getEntry } from "astro:content";
 
+// Interim signup relay: the Mailchimp audience died (verified 2026-08-04),
+// so signups POST to FormSubmit and arrive as email until the new list
+// provider (Kit) is set up. Endpoint lives in site/company.json.
 const company = await getEntry("site", "company");
 if (!company) throw new Error("Missing site/company content entry");
-const { u, list_id, honeypot } = company.data.mailchimp;
-const action = `https://mountainmovers.us17.list-manage.com/subscribe/post?u=${u}&id=${list_id}`;
+const endpoint = company.data.newsletter_endpoint;
 ---
 
-<form class="newsletter-form" action={action} method="post" target="_blank">
+<form class="newsletter-form" data-endpoint={endpoint} novalidate>
   <label class="sr-only" for="newsletter-email">Email address</label>
   <input
     id="newsletter-email"
     type="email"
-    name="EMAIL"
+    name="email"
     placeholder="Email address"
     autocomplete="email"
     required
   />
-  <!-- Mailchimp bot honeypot — do not remove -->
+  <!-- FormSubmit honeypot — do not remove -->
   <div class="hp" aria-hidden="true">
-    <input type="text" name={honeypot} tabindex="-1" value="" />
+    <input type="text" name="_honey" tabindex="-1" value="" />
   </div>
   <button type="submit">Subscribe</button>
+  <p class="newsletter-msg" hidden aria-live="polite"></p>
 </form>
+
+<script>
+  document.querySelectorAll<HTMLFormElement>(".newsletter-form").forEach((form) => {
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const input = form.querySelector<HTMLInputElement>('input[type="email"]')!;
+      const msg = form.querySelector<HTMLParagraphElement>(".newsletter-msg")!;
+      const email = input.value.trim();
+      msg.hidden = true;
+      msg.classList.remove("is-error");
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        msg.textContent = "Please enter a valid email address.";
+        msg.classList.add("is-error");
+        msg.hidden = false;
+        return;
+      }
+      try {
+        const response = await fetch(form.dataset.endpoint!, {
+          method: "POST",
+          headers: { "Content-Type": "application/json", Accept: "application/json" },
+          body: JSON.stringify({
+            _subject: "New mailing list signup",
+            _template: "table",
+            email,
+          }),
+        });
+        if (!response.ok) throw new Error(String(response.status));
+        msg.textContent = "You're on the list — thank you!";
+        input.value = "";
+      } catch {
+        msg.textContent = "Something went wrong — please try again later.";
+        msg.classList.add("is-error");
+      }
+      msg.hidden = false;
+    });
+  });
+</script>
 
 <style>
   .newsletter-form {
@@ -52,6 +92,17 @@ const action = `https://mountainmovers.us17.list-manage.com/subscribe/post?u=${u
 
   button:hover {
     background: var(--color-glacier-900);
+  }
+
+  .newsletter-msg {
+    flex-basis: 100%;
+    font-size: var(--text-sm);
+    color: #2e7d43;
+    margin: 0;
+  }
+
+  .newsletter-msg.is-error {
+    color: #c0392b;
   }
 
   .hp {

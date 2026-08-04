@@ -33,6 +33,7 @@ _Last updated: 2026-08-03 (iteration 2)_
 | ~~Design direction~~ — resolved: editorial design won review, now the only version | Josh | closed 2026-08-04 |
 | Donations: swap Donorbox → Givebutter? (0% + donor tips vs. Donorbox's 2.95% + processing; one-component change via DonorboxEmbed; recurring donors would need to re-enroll) | Josh | deferred to next iteration, after Wayne's feedback |
 | ~~Editorial photo licenses~~ — resolved: MMI holds full rights to the recovered 2015–2017 imagery | Josh | closed 2026-08-04 |
+| Mailchimp audience is DEAD (both list IDs 404, account likely purged for inactivity). Newsletter form relays to FormSubmit → dev@ as interim; SGI gate fails open by design. Rebuild list on Kit (free ≤10k) + reseed from dev@ SGI emails / Donorbox export / inbox archaeology; Givebutter + n8n glue planned | Josh | open — interim shipped 2026-08-04 |
 | Real MMI field photography (shot list below) | Josh | open |
 | Wayne's sign-off on podcast/sermon content | Josh + Wayne | open — everything draft-gated (ADR 0005) |
 | Sermon ownership: Wayne vs. Hope Lutheran | Josh + Wayne | open |
