@@ -1,11 +1,9 @@
 ---
 // Site header. Light background so the heritage logo (dark serif wordmark,
 // ice/glacier peaks) sits on its native ground.
-// TODO(asset): public/images/logo-heritage.jpg is a low-res Wayback capture —
-// replace with the high-resolution original when Josh supplies the file.
 const links = [
   { href: "/about/", label: "About" },
-  { href: "/ministries/", label: "Ministries" },
+  { href: "/founder/", label: "Founder" },
   { href: "/podcast/", label: "Podcast" },
   { href: "/spiritual-gifts-inventory/", label: "Spiritual Gifts" },
   { href: "/contact/", label: "Contact" },
@@ -16,7 +14,7 @@ const current = Astro.url.pathname;
 <header class="site-header">
   <div class="container header-inner">
     <a class="brand" href="/">
-      <img src="/images/logo-heritage.jpg" alt="Mountain Movers International" width="87" height="61" />
+      <img src="/images/logo-heritage.jpg" alt="Mountain Movers International" width="320" height="219" />
     </a>
     <nav aria-label="Main">
       <button class="menu-toggle" aria-expanded="false" aria-controls="site-nav">

@@ -1,5 +1,5 @@
 ---
-import { getCollection, getEntry } from "astro:content";
+import { getCollection, getEntry, render } from "astro:content";
 import BaseLayout from "../layouts/BaseLayout.astro";
 
 const page = await getEntry("pages", "about");
@@ -7,6 +7,20 @@ if (!page) throw new Error("Missing pages/about content entry");
 const { title, description, heading, intro, sections } = page.data;
 
 const timeline = (await getCollection("timeline")).sort((a, b) => a.data.order - b.data.order);
+const ministries = (await getCollection("ministries")).sort((a, b) => a.data.order - b.data.order);
+
+// Ministry detail lives inside its era on this page (no standalone
+// /ministries/ page) — joined via frontmatter era_key = timeline entry id.
+const eras = await Promise.all(
+  timeline.map(async (era) => ({
+    era,
+    ministries: await Promise.all(
+      ministries
+        .filter((ministry) => ministry.data.era_key === era.id)
+        .map(async (ministry) => ({ ministry, Content: (await render(ministry)).Content })),
+    ),
+  })),
+);
 ---
 
 <BaseLayout title={title} description={description}>
@@ -35,11 +49,31 @@ const timeline = (await getCollection("timeline")).sort((a, b) => a.data.order -
       <h2>Our story</h2>
       <ol class="timeline">
         {
-          timeline.map((era) => (
+          eras.map(({ era, ministries: eraMinistries }) => (
             <li>
               <p class="years">{era.data.years}</p>
               <h3>{era.data.heading}</h3>
               <p>{era.data.body}</p>
+              {eraMinistries.length > 0 && (
+                <div class="era-ministries">
+                  {eraMinistries.map(({ ministry, Content }) => (
+                    <details class="ministry">
+                      <summary>
+                        <span class="ministry-title">{ministry.data.title}</span>
+                        {ministry.data.countries.length > 0 && (
+                          <span class="ministry-countries">
+                            {ministry.data.countries.join(" · ")}
+                          </span>
+                        )}
+                      </summary>
+                      <div class="ministry-body">
+                        <p class="ministry-summary">{ministry.data.summary}</p>
+                        <Content />
+                      </div>
+                    </details>
+                  ))}
+                </div>
+              )}
             </li>
           ))
         }
@@ -113,5 +147,54 @@ const timeline = (await getCollection("timeline")).sort((a, b) => a.data.order -
 
   .timeline h3 {
     margin-block: var(--space-1) var(--space-2);
+  }
+
+  .era-ministries {
+    margin-top: var(--space-3);
+    display: grid;
+    gap: var(--space-2);
+  }
+
+  .ministry {
+    background: var(--color-bg);
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius);
+  }
+
+  .ministry summary {
+    padding: var(--space-2) var(--space-3);
+    cursor: pointer;
+    display: flex;
+    gap: var(--space-3);
+    align-items: baseline;
+    flex-wrap: wrap;
+  }
+
+  .ministry summary:hover {
+    background: var(--color-glacier-100);
+    border-radius: var(--radius);
+  }
+
+  .ministry-title {
+    font-weight: var(--weight-semibold);
+  }
+
+  .ministry-countries {
+    font-size: var(--text-sm);
+    color: var(--color-glacier-700);
+  }
+
+  .ministry-body {
+    padding: 0 var(--space-3) var(--space-3);
+  }
+
+  .ministry-summary {
+    font-family: var(--font-display);
+    font-style: italic;
+    color: var(--color-text-muted);
+  }
+
+  .ministry-body :global(p) {
+    margin-top: var(--space-2);
   }
 </style>

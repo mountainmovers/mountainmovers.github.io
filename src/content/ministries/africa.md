@@ -4,6 +4,7 @@ summary: Restoration, wells, farms, and economic development.
 region: international
 countries: [Kenya, Zimbabwe]
 era: 2000s–2010s
+era_key: 2001-first-fields
 active: false
 order: 12
 ---

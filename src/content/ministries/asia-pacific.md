@@ -4,6 +4,7 @@ summary: Orphanages, schools, and church partnerships.
 region: international
 countries: [India, Nepal, Philippines, Ukraine]
 era: 2000s–2010s
+era_key: 2001-first-fields
 active: false
 order: 13
 ---

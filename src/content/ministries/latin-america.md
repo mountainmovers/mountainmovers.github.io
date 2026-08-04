@@ -4,6 +4,7 @@ summary: Missions across Peru and Mexico.
 region: international
 countries: [Peru, Mexico]
 era: 2000s–2010s
+era_key: 2001-first-fields
 active: false
 order: 14
 ---

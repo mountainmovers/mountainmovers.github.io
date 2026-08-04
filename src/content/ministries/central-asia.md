@@ -4,6 +4,7 @@ summary: Standing with the persecuted church in hard places.
 region: international
 countries: [Afghanistan]
 era: 2000s–present
+era_key: 2015-frontlines
 active: false
 order: 11
 ---

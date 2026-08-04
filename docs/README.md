@@ -1,6 +1,6 @@
 # Current state — mountainmovers.org redesign
 
-_Last updated: 2026-08-03_
+_Last updated: 2026-08-03 (iteration 2)_
 
 ## Next session — start here
 
@@ -13,7 +13,10 @@ _Last updated: 2026-08-03_
 | Area | Status |
 |---|---|
 | Astro 5 scaffold, tokens.css design system | ✅ |
-| Core pages (Home, About, Founder, Ministries, Donate, Contact, 404) | ✅ |
+| Core pages (Home, About, Founder, Donate, Contact, 404) | ✅ |
+| Ministries folded into About timeline (era_key join; /ministries/ → /about/) | ✅ iteration 2 |
+| Heritage logo (900×616 original + 320px header version) | ✅ iteration 2 |
+| Editorial design variant B at /variants/editorial/ (noindexed, out of sitemap) | ✅ iteration 2 |
 | SGI port (frozen contract, ADR 0004) | ✅ build-verified; needs Playwright + live cross-check |
 | Podcast infra (index, episode pages, itunes RSS) | ✅ feed empty by design (all episodes draft) |
 | Content collections + zod schemas | ✅ |
@@ -26,7 +29,8 @@ _Last updated: 2026-08-03_
 
 | Question | Owner | Status |
 |---|---|---|
-| High-res heritage logo file (chat image → repo) | Josh | open |
+| Editorial-variant photo licenses — images are from MMI's own 2015–2017 site (Wayback-recovered, mostly stock, provenance unverifiable). OK for the non-prod variant; verify or re-source before production use | Josh | open |
+| Real MMI field photography (shot list below) | Josh | open |
 | Wayne's sign-off on podcast/sermon content | Josh + Wayne | open — everything draft-gated (ADR 0005) |
 | Sermon ownership: Wayne vs. Hope Lutheran | Josh + Wayne | open |
 | Podcast host (RSS.com / Buzzsprout / Ghost / self) | Josh | open — doesn't block site work |
@@ -42,6 +46,15 @@ _Last updated: 2026-08-03_
 | Google Fonts Open Sans | self-hosted Source Serif 4 + Source Sans 3 | perf/privacy; heritage serif |
 | jQuery smooth-scroll | CSS `scroll-behavior` | dependency-free |
 | 2016 posts | meta-refresh redirects → /about/ | throwaway content |
+
+## Photo shot list (for MMI archives / future field photography)
+
+The editorial variant needs authentic imagery to replace the recovered stock:
+mission-field portraits (with consent), water-well drilling, school/orphanage
+classrooms, food distribution, Wayne teaching/preaching, team + partner
+candids, one strong landscape per field region. Target ≥1600px wide.
+Nothing authentic survives online from 2001–2012 — the originals exist only
+in MMI/family archives, if anywhere.
 
 ## Launch checklist (for the FUTURE cutover — do not execute)
 

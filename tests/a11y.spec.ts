@@ -5,11 +5,11 @@ const routes = [
   "/",
   "/about/",
   "/founder/",
-  "/ministries/",
   "/podcast/",
   "/spiritual-gifts-inventory/",
   "/donate/",
   "/contact/",
+  "/variants/editorial/",
 ];
 
 for (const route of routes) {

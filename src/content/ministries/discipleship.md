@@ -3,6 +3,7 @@ title: Discipleship
 summary: Develop. Disciple. Duplicate.
 region: discipleship
 era: 2010s
+era_key: 2010-empowering
 active: false
 order: 1
 ---

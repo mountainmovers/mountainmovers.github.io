@@ -4,15 +4,23 @@ interface Props {
   description: string;
   ogType?: string;
   image?: string;
+  noindex?: boolean;
 }
 
-const { title, description, ogType = "website", image = "/siteicon.png" } = Astro.props;
+const {
+  title,
+  description,
+  ogType = "website",
+  image = "/images/logo-heritage-full.jpg",
+  noindex: pageNoindex = false,
+} = Astro.props;
 
 const canonical = new URL(Astro.url.pathname, Astro.site);
 const imageUrl = new URL(image, Astro.site);
 // Preview builds (GitLab Pages) must never be indexed; the flag is set in
-// .gitlab-ci.yml. Production builds omit it.
-const noindex = import.meta.env.PUBLIC_NOINDEX === "true";
+// .gitlab-ci.yml. Production builds omit it. Individual pages (design
+// variants) can also opt out via the noindex prop.
+const noindex = import.meta.env.PUBLIC_NOINDEX === "true" || pageNoindex;
 ---
 
 <title>{title}</title>

@@ -10,11 +10,16 @@ const site = process.env.SITE_URL || "https://www.mountainmovers.org";
 export default defineConfig({
   site,
   trailingSlash: "ignore",
-  integrations: [sitemap()],
+  integrations: [
+    // Design variants are review-only pages — keep them out of the sitemap.
+    sitemap({ filter: (page) => !page.includes("/variants/") }),
+  ],
   redirects: {
     // Throwaway 2016 Jekyll posts — GitHub Pages has no server redirects, so
     // Astro emits meta-refresh pages. Weak SEO weight is acceptable here.
     "/2016/11/05/5000/": "/about/",
     "/2016/11/01/latest-milestone/": "/about/",
+    // Ministry history lives inside the About timeline now.
+    "/ministries/": "/about/",
   },
 });

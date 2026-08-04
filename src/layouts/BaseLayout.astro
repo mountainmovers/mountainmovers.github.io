@@ -11,9 +11,10 @@ interface Props {
   title: string;
   description: string;
   ogType?: string;
+  noindex?: boolean;
 }
 
-const { title, description, ogType } = Astro.props;
+const { title, description, ogType, noindex } = Astro.props;
 
 const company = await getEntry("site", "company");
 if (!company) throw new Error("Missing site/company content entry");
@@ -23,7 +24,7 @@ const orgJsonLd = {
   "@type": ["Organization", "NGO"],
   name: company.data.company_name,
   url: Astro.site?.toString(),
-  logo: new URL("/images/logo-heritage.jpg", Astro.site).toString(),
+  logo: new URL("/images/logo-heritage-full.jpg", Astro.site).toString(),
   description: company.data.tagline,
   foundingDate: String(company.data.founding_year),
   founder: { "@type": "Person", name: "Wayne Hamit" },
@@ -45,7 +46,7 @@ const orgJsonLd = {
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <Seo title={title} description={description} ogType={ogType} />
+    <Seo title={title} description={description} ogType={ogType} noindex={noindex} />
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon.png" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <link rel="sitemap" href="/sitemap-index.xml" />

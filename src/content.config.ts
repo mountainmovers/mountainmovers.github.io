@@ -68,6 +68,8 @@ const episodes = defineCollection({
     }),
 });
 
+// Ministry detail renders inside the About page's timeline, joined to a
+// timeline entry by era_key (= timeline entry id). No standalone page.
 const ministries = defineCollection({
   loader: glob({ pattern: "**/*.md", base: "./src/content/ministries" }),
   schema: z.object({
@@ -76,6 +78,7 @@ const ministries = defineCollection({
     region: z.enum(["international", "domestic", "discipleship"]),
     countries: z.array(z.string()).default([]),
     era: z.string().optional(),
+    era_key: z.string(),
     active: z.boolean().default(false),
     order: z.number().default(99),
   }),

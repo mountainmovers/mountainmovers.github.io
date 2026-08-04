@@ -51,8 +51,11 @@ Pages settings without an explicit instruction from Josh.** This branch
 
 ## Known state / debt
 
-- `public/images/logo-heritage.jpg` is a low-res Wayback capture — replace
-  with the high-res original from Josh.
+- `public/images/editorial/*` photos are Wayback-recovered from MMI's
+  2015–2017 site; license provenance unverified — variant/preview use only
+  until cleared (docs/README.md open questions).
+- `/variants/editorial/` is design variant B — review-only (noindexed, out of
+  sitemap, never in nav). Don't link it from public pages.
 - Podcast host not chosen; all episodes are drafts. The feed builds and
   validates but is empty by design.
 - Old Jekyll content lives in git history on `master` (`git show

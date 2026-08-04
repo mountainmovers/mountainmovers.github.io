@@ -4,6 +4,7 @@ summary: Business-as-mission and support for believers in the Holy Land.
 region: international
 countries: [Palestine, Israel]
 era: 2000s–2010s
+era_key: 2001-first-fields
 active: false
 order: 10
 ---

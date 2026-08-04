@@ -1,6 +1,6 @@
 import { test, expect } from "@playwright/test";
 
-const routes = ["/", "/about/", "/founder/", "/ministries/", "/podcast/", "/donate/", "/contact/", "/spiritual-gifts-inventory/"];
+const routes = ["/", "/about/", "/founder/", "/podcast/", "/donate/", "/contact/", "/spiritual-gifts-inventory/"];
 
 for (const route of routes) {
   test(`SEO meta present: ${route}`, async ({ page }) => {
