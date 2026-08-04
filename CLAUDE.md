@@ -54,8 +54,7 @@ Pages settings without an explicit instruction from Josh.** This branch
 - The site design is the "editorial" language (won the 2026-08 review):
   photo-led homepage, `.kicker`/`.page-hero` shared classes in global.css.
 - `public/images/editorial/*` photos are Wayback-recovered from MMI's
-  2015–2017 site; license provenance unverified — must be cleared or replaced
-  before production cutover (docs/README.md P0).
+  2015–2017 site; MMI holds full rights (confirmed 2026-08-04).
 - Podcast host not chosen; all episodes are drafts. The feed builds and
   validates but is empty by design.
 - Old Jekyll content lives in git history on `master` (`git show

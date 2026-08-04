@@ -6,10 +6,8 @@ import DonorboxEmbed from "../components/DonorboxEmbed.astro";
 
 // Editorial design — chosen over the modern-minimal concept in the
 // 2026-08 review. Photo-led magazine layout; all copy from collections.
-//
-// Photography recovered from MMI's own 2015–2017 site via the Wayback
-// Machine; license provenance unverified — must be cleared or replaced with
-// authentic MMI field photography before production cutover (docs/README.md).
+// Photography recovered from MMI's own 2015–2017 site (MMI holds full
+// rights — confirmed by Josh 2026-08-04).
 const page = await getEntry("pages", "home");
 if (!page) throw new Error("Missing pages/home content entry");
 const { title, description, heading, intro, sections } = page.data;
