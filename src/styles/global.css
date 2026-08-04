@@ -121,6 +121,38 @@ textarea {
   padding-inline: var(--space-4);
 }
 
+/* Editorial design language — shared across all pages.
+   Kicker: uppercase letterspaced eyebrow above headings. */
+.kicker {
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  font-size: var(--text-xs);
+  font-weight: var(--weight-bold);
+  color: var(--color-glacier-700);
+}
+
+.kicker--light {
+  color: var(--color-glacier-200);
+}
+
+/* Standard interior page hero band */
+.page-hero {
+  background: var(--color-glacier-900);
+  color: var(--color-snow);
+  padding-block: var(--space-6);
+}
+
+.page-hero .lede {
+  margin-top: var(--space-3);
+  font-size: var(--text-lg);
+  color: var(--color-glacier-100);
+}
+
+.page-hero .kicker {
+  color: var(--color-glacier-200);
+  margin-bottom: var(--space-2);
+}
+
 /* Scroll-triggered entrance; interactions.js adds .is-visible */
 .anim-fade-up {
   opacity: 0;

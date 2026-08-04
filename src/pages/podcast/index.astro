@@ -14,6 +14,7 @@ const episodes = (await getCollection("episodes", ({ data }) => !data.draft)).so
 >
   <section class="page-hero">
     <div class="container">
+      <p class="kicker">Stories &amp; teaching</p>
       <h1>The Mountain Movers Podcast</h1>
       <p class="lede">
         Stories from the world's hardest mission fields, and teaching that helps you put your
@@ -58,18 +59,6 @@ const episodes = (await getCollection("episodes", ({ data }) => !data.draft)).so
 </BaseLayout>
 
 <style>
-  .page-hero {
-    background: var(--color-glacier-900);
-    color: var(--color-snow);
-    padding-block: var(--space-6);
-  }
-
-  .lede {
-    margin-top: var(--space-3);
-    font-size: var(--text-lg);
-    color: var(--color-glacier-100);
-  }
-
   .episodes {
     padding-block: var(--space-5);
   }

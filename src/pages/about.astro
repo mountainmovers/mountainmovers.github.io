@@ -26,6 +26,7 @@ const eras = await Promise.all(
 <BaseLayout title={title} description={description}>
   <section class="page-hero">
     <div class="container">
+      <p class="kicker">Since 2000</p>
       <h1>{heading}</h1>
       <p class="lede">{intro}</p>
     </div>
@@ -86,18 +87,6 @@ const eras = await Promise.all(
 </BaseLayout>
 
 <style>
-  .page-hero {
-    background: var(--color-glacier-900);
-    color: var(--color-snow);
-    padding-block: var(--space-6);
-  }
-
-  .lede {
-    margin-top: var(--space-3);
-    font-size: var(--text-lg);
-    color: var(--color-glacier-100);
-  }
-
   .prose,
   .history {
     padding-block: var(--space-5);

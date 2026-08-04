@@ -1,197 +1,512 @@
 ---
-import { getEntry } from "astro:content";
+import { getCollection, getEntry } from "astro:content";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import NewsletterSignup from "../components/NewsletterSignup.astro";
 import DonorboxEmbed from "../components/DonorboxEmbed.astro";
 
+// Editorial design — chosen over the modern-minimal concept in the
+// 2026-08 review. Photo-led magazine layout; all copy from collections.
+//
+// Photography recovered from MMI's own 2015–2017 site via the Wayback
+// Machine; license provenance unverified — must be cleared or replaced with
+// authentic MMI field photography before production cutover (docs/README.md).
 const page = await getEntry("pages", "home");
 if (!page) throw new Error("Missing pages/home content entry");
 const { title, description, heading, intro, sections } = page.data;
 const [mission, sgiCallout, newsletter, donate] = sections;
+
+const founder = await getEntry("founder", "wayne-hamit");
+const timeline = (await getCollection("timeline")).sort((a, b) => a.data.order - b.data.order);
 ---
 
 <BaseLayout title={title} description={description}>
-  <section class="hero">
-    <div class="container">
+  <section class="ed-hero">
+    <img class="ed-hero-img" src="/images/editorial/peak-sunrise.jpg" alt="" />
+    <div class="ed-hero-scrim"></div>
+    <div class="ed-hero-copy container">
+      <p class="kicker kicker--light">Mountain Movers International · est. 2000</p>
       <h1>{heading}</h1>
-      <p class="hero-intro">{intro}</p>
-      <div class="hero-actions">
-        <a class="btn btn-gold" href="/donate/">Donate Today</a>
-        <a class="btn btn-ghost" href="/about/">Learn More</a>
+      <p class="standfirst">{intro}</p>
+    </div>
+  </section>
+
+  <section class="ed-mission anim-fade-up">
+    <div class="container ed-mission-grid">
+      <blockquote>
+        <p>{mission.quote}</p>
+        <cite>{mission.attribution}</cite>
+      </blockquote>
+      <div>
+        <p class="drop">{mission.body[0]}</p>
+        <a class="ed-link" href="/about/">Read our story &rarr;</a>
       </div>
     </div>
   </section>
 
-  <section class="mission anim-fade-up">
+  <section class="ed-stories anim-fade-up">
     <div class="container">
-      <h2>{mission.heading}</h2>
+      <p class="kicker">Where we've stood</p>
+      <h2>The worst societal issues. The most hopeless situations.</h2>
+    </div>
+    <div class="ed-story-grid">
+      <figure class="ed-story tall">
+        <img src="/images/editorial/girl-wall.jpg" alt="A young girl sits alone against a weathered wall" />
+        <figcaption><span>Rescue</span> Standing with victims of trafficking</figcaption>
+      </figure>
+      <figure class="ed-story">
+        <img src="/images/editorial/girl-courtyard.jpg" alt="A girl stands in a courtyard beside her home" />
+        <figcaption><span>Provision</span> Feeding the hungry, drilling wells</figcaption>
+      </figure>
+      <figure class="ed-story">
+        <img src="/images/editorial/schoolchildren.jpg" alt="Schoolchildren write at a wooden desk" />
+        <figcaption><span>Education</span> Schools and orphanages worldwide</figcaption>
+      </figure>
+      <figure class="ed-story wide">
+        <img src="/images/editorial/refugee-sisters.jpg" alt="A refugee girl carries her younger sibling through a crowd" />
+        <figcaption><span>Refuge</span> A bridge between needs and resources</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section class="ed-timeline anim-fade-up">
+    <div class="container">
+      <p class="kicker kicker--light">Twenty-five years</p>
+      <h2>We see mountains moving</h2>
+      <ol>
+        {
+          timeline.map((era, index) => (
+            <li>
+              <span class="num">{String(index + 1).padStart(2, "0")}</span>
+              <div>
+                <p class="years">{era.data.years}</p>
+                <h3>{era.data.heading}</h3>
+                <p class="era-body">{era.data.body}</p>
+              </div>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+
+  {
+    founder && (
+      <section class="ed-founder anim-fade-up">
+        <div class="container ed-founder-grid">
+          <img
+            class="ed-portrait"
+            src="/images/wayne-hamit.jpg"
+            alt={`Portrait of ${founder.data.title}`}
+            width="398"
+            height="398"
+          />
+          <div>
+            <p class="kicker">The founder</p>
+            <h2>{founder.data.title}</h2>
+            <p class="ed-founder-line">
+              Management consultant. Gulf War veteran. Law enforcement officer. Pastor. He teaches
+              from inside the world's experiences, not above them.
+            </p>
+            <a class="ed-link" href="/founder/">Meet Wayne &rarr;</a>
+          </div>
+        </div>
+      </section>
+    )
+  }
+
+  <section class="ed-sgi anim-fade-up">
+    <div class="container">
+      <h2><span>110 statements.</span> <span>22 gifts.</span> <span>One calling — yours.</span></h2>
+      <p>{sgiCallout.body[0]}</p>
+      <a class="ed-btn" href="/spiritual-gifts-inventory/">Take the Inventory</a>
+    </div>
+  </section>
+
+  <section id="donate" class="ed-donate anim-fade-up">
+    <img class="ed-donate-img" src="/images/editorial/painting-hands.jpg" alt="" />
+    <div class="ed-donate-scrim"></div>
+    <div class="container ed-donate-copy">
       <blockquote>
-        <p class="quote">{mission.quote}</p>
-        <cite>{mission.attribution}</cite>
-      </blockquote>
-      {mission.body.map((paragraph) => <p>{paragraph}</p>)}
-    </div>
-  </section>
-
-  <section class="sgi-callout anim-fade-up">
-    <div class="container">
-      <h2>{sgiCallout.heading}</h2>
-      {sgiCallout.body.map((paragraph) => <p>{paragraph}</p>)}
-      <a class="btn btn-blue" href="/spiritual-gifts-inventory/">Take the Inventory</a>
-    </div>
-  </section>
-
-  <section class="newsletter anim-fade-up">
-    <div class="container">
-      <h2>{newsletter.heading}</h2>
-      {newsletter.body.map((paragraph) => <p>{paragraph}</p>)}
-      <NewsletterSignup />
-    </div>
-  </section>
-
-  <section id="donate" class="donate anim-fade-up">
-    <div class="container">
-      <h2>{donate.heading}</h2>
-      <DonorboxEmbed />
-      <blockquote>
-        <p class="quote">{donate.quote}</p>
+        <p>{donate.quote}</p>
         <cite>{donate.attribution}</cite>
       </blockquote>
+      <h2>{donate.heading}</h2>
+      <DonorboxEmbed />
+      <div class="ed-newsletter">
+        <h3>{newsletter.heading}</h3>
+        <p>{newsletter.body[0]}</p>
+        <NewsletterSignup />
+      </div>
     </div>
   </section>
 </BaseLayout>
 
 <style>
-  section {
+  /* Hero — full-bleed photo, duotone scrim */
+  .ed-hero {
+    position: relative;
+    min-height: 82vh;
+    display: flex;
+    align-items: flex-end;
+    overflow: hidden;
+  }
+
+  .ed-hero-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: grayscale(35%);
+  }
+
+  .ed-hero-scrim {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgb(20 53 94 / 0.25) 30%, rgb(20 53 94 / 0.9) 100%);
+  }
+
+  .ed-hero-copy {
+    position: relative;
+    color: var(--color-snow);
     padding-block: var(--space-6);
   }
 
-  .hero {
-    background:
-      linear-gradient(rgb(20 53 94 / 0.72), rgb(20 53 94 / 0.72)),
-      url("/images/home-bg-custom.jpg") center / cover no-repeat;
+  .ed-hero h1 {
+    font-size: var(--text-hero);
+    max-width: 16ch;
+    margin-top: var(--space-2);
+  }
+
+  .standfirst {
+    margin-top: var(--space-4);
+    font-size: var(--text-lg);
+    max-width: 48ch;
+    color: var(--color-glacier-100);
+  }
+
+  /* Mission spread */
+  .ed-mission {
+    padding-block: var(--space-7);
+  }
+
+  .ed-mission-grid {
+    display: grid;
+    gap: var(--space-5);
+  }
+
+  @media (min-width: 48rem) {
+    .ed-mission-grid {
+      grid-template-columns: 1fr 1fr;
+      align-items: start;
+    }
+  }
+
+  .ed-mission blockquote {
+    margin: 0;
+    border-top: 6px solid var(--color-glacier-700);
+    padding-top: var(--space-4);
+  }
+
+  .ed-mission blockquote p {
+    font-family: var(--font-display);
+    font-size: var(--text-2xl);
+    line-height: var(--leading-snug);
+    font-style: italic;
+  }
+
+  .ed-mission cite {
+    display: block;
+    margin-top: var(--space-3);
+    font-style: normal;
+    font-weight: var(--weight-bold);
+    color: var(--color-glacier-700);
+  }
+
+  .drop::first-letter {
+    font-family: var(--font-display);
+    font-size: 3.2em;
+    float: left;
+    line-height: 0.85;
+    padding-right: 0.12em;
+    color: var(--color-glacier-700);
+  }
+
+  .ed-link {
+    display: inline-block;
+    margin-top: var(--space-4);
+    font-weight: var(--weight-semibold);
+    text-decoration: none;
+  }
+
+  /* Story grid — duotone photos */
+  .ed-stories {
+    background: var(--color-bg-alt);
+    padding-block: var(--space-6);
+  }
+
+  .ed-stories h2 {
+    max-width: 24ch;
+    margin-block: var(--space-2) var(--space-5);
+  }
+
+  .ed-story-grid {
+    display: grid;
+    gap: var(--space-3);
+    padding-inline: var(--space-3);
+    max-width: 90rem;
+    margin-inline: auto;
+  }
+
+  @media (min-width: 48rem) {
+    .ed-story-grid {
+      grid-template-columns: repeat(3, 1fr);
+      grid-auto-rows: 300px;
+    }
+
+    .ed-story.tall {
+      grid-row: span 2;
+    }
+
+    .ed-story.wide {
+      grid-column: span 2;
+    }
+  }
+
+  .ed-story {
+    position: relative;
+    margin: 0;
+    overflow: hidden;
+    border-radius: var(--radius);
+    min-height: 260px;
+  }
+
+  .ed-story img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: grayscale(60%) contrast(1.05);
+    transition: filter var(--duration) var(--ease);
+  }
+
+  .ed-story:hover img {
+    filter: grayscale(0%);
+  }
+
+  .ed-story::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgb(20 53 94 / 0.05) 40%, rgb(20 53 94 / 0.85) 100%);
+  }
+
+  .ed-story figcaption {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1;
+    padding: var(--space-3);
     color: var(--color-snow);
+    font-size: var(--text-base);
+  }
+
+  .ed-story figcaption span {
+    display: block;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    font-size: var(--text-xs);
+    font-weight: var(--weight-bold);
+    color: var(--color-gold-bright);
+  }
+
+  /* Timeline — numbered chapters on glacier-900 */
+  .ed-timeline {
+    background: var(--color-glacier-900);
+    color: var(--color-snow);
+    padding-block: var(--space-7);
+  }
+
+  .ed-timeline h2 {
+    margin-block: var(--space-2) var(--space-5);
+  }
+
+  .ed-timeline ol {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: var(--space-5);
+  }
+
+  @media (min-width: 48rem) {
+    .ed-timeline ol {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  .ed-timeline li {
+    display: flex;
+    gap: var(--space-3);
+    max-width: none;
+  }
+
+  .num {
+    font-family: var(--font-display);
+    font-size: var(--text-3xl);
+    color: var(--color-glacier-500);
+    line-height: 1;
+  }
+
+  .ed-timeline .years {
+    font-size: var(--text-xs);
+    font-weight: var(--weight-bold);
+    letter-spacing: 0.12em;
+    color: var(--color-glacier-200);
+  }
+
+  .ed-timeline h3 {
+    margin-block: var(--space-1) var(--space-2);
+  }
+
+  .era-body {
+    color: var(--color-glacier-100);
+    font-size: var(--text-sm);
+  }
+
+  /* Founder feature */
+  .ed-founder {
+    padding-block: var(--space-7);
+  }
+
+  .ed-founder-grid {
+    display: flex;
+    align-items: center;
+    gap: var(--space-6);
+    flex-wrap: wrap;
+  }
+
+  .ed-portrait {
+    width: 220px;
+    height: 220px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid var(--color-glacier-100);
+    box-shadow: var(--shadow-md);
+  }
+
+  .ed-founder h2 {
+    margin-block: var(--space-2);
+  }
+
+  .ed-founder-line {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: var(--text-lg);
+    color: var(--color-text-muted);
+    max-width: 44ch;
+  }
+
+  /* SGI — typographic block */
+  .ed-sgi {
+    background: var(--color-bg-alt);
     padding-block: var(--space-7);
     text-align: center;
   }
 
-  .hero h1 {
-    font-size: var(--text-hero);
+  .ed-sgi h2 {
+    font-size: var(--text-3xl);
+    max-width: 18ch;
     margin-inline: auto;
-    max-width: 22ch;
   }
 
-  .hero-intro {
+  .ed-sgi h2 span {
+    display: block;
+  }
+
+  .ed-sgi h2 span:nth-child(2) {
+    color: var(--color-glacier-600);
+  }
+
+  .ed-sgi p {
     margin: var(--space-4) auto 0;
-    font-size: var(--text-lg);
-    max-width: 55ch;
-    color: var(--color-glacier-100);
   }
 
-  .hero-actions {
-    margin-top: var(--space-5);
-    display: flex;
-    gap: var(--space-3);
-    justify-content: center;
-    flex-wrap: wrap;
-  }
-
-  .btn {
+  .ed-btn {
     display: inline-block;
-    padding: var(--space-3) var(--space-5);
+    margin-top: var(--space-5);
+    padding: var(--space-3) var(--space-6);
+    background: var(--color-glacier-700);
+    color: var(--color-snow);
     border-radius: var(--radius);
     font-weight: var(--weight-semibold);
     text-decoration: none;
-    transition: background var(--duration) var(--ease);
   }
 
-  .btn-gold {
-    background: var(--color-gold);
-    color: var(--color-ink);
-  }
-
-  .btn-gold:hover {
-    background: var(--color-gold-bright);
-    color: var(--color-ink);
-  }
-
-  .btn-ghost {
-    border: 2px solid var(--color-snow);
-    color: var(--color-snow);
-  }
-
-  .btn-ghost:hover {
-    background: rgb(255 255 255 / 0.12);
-    color: var(--color-snow);
-  }
-
-  .btn-blue {
-    background: var(--color-glacier-700);
-    color: var(--color-snow);
-  }
-
-  .btn-blue:hover {
+  .ed-btn:hover {
     background: var(--color-glacier-900);
     color: var(--color-snow);
   }
 
-  blockquote {
-    border-left: 4px solid var(--color-glacier-500);
-    padding-left: var(--space-4);
-    margin-block: var(--space-4);
+  /* Donate — photo band */
+  .ed-donate {
+    position: relative;
+    overflow: hidden;
   }
 
-  .quote {
+  .ed-donate-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: grayscale(70%);
+  }
+
+  .ed-donate-scrim {
+    position: absolute;
+    inset: 0;
+    background: rgb(247 250 252 / 0.94);
+  }
+
+  .ed-donate-copy {
+    position: relative;
+    padding-block: var(--space-7);
+    text-align: center;
+  }
+
+  .ed-donate blockquote {
+    margin: 0 auto var(--space-5);
+    max-width: 40ch;
+  }
+
+  .ed-donate blockquote p {
     font-family: var(--font-display);
-    font-size: var(--text-lg);
     font-style: italic;
-    color: var(--color-text-muted);
+    font-size: var(--text-xl);
   }
 
-  cite {
+  .ed-donate cite {
     display: block;
     margin-top: var(--space-2);
     font-style: normal;
-    font-weight: var(--weight-semibold);
+    font-weight: var(--weight-bold);
     color: var(--color-glacier-700);
   }
 
-  .mission p + p {
-    margin-top: var(--space-3);
+  .ed-donate h2 {
+    margin-bottom: var(--space-4);
   }
 
-  .sgi-callout {
-    background: var(--color-bg-alt);
-    text-align: center;
-  }
-
-  .sgi-callout p {
+  .ed-newsletter {
+    margin-top: var(--space-6);
+    max-width: 34rem;
     margin-inline: auto;
   }
 
-  .sgi-callout .btn {
-    margin-top: var(--space-4);
-  }
-
-  .newsletter .container {
-    max-width: 44rem;
-  }
-
-  .newsletter p {
-    margin-block: var(--space-3);
-  }
-
-  .donate {
-    background: var(--color-bg-alt);
-  }
-
-  .donate h2 {
-    text-align: center;
-    margin-bottom: var(--space-5);
-  }
-
-  .donate blockquote {
-    max-width: var(--measure);
-    margin-inline: auto;
+  .ed-newsletter p {
+    margin-block: var(--space-2) var(--space-3);
   }
 </style>

@@ -4,7 +4,9 @@ const routes = ["/", "/about/", "/founder/", "/podcast/", "/donate/", "/contact/
 
 for (const route of routes) {
   test(`SEO meta present: ${route}`, async ({ page }) => {
-    await page.goto(route);
+    // Meta tags are in the parsed HTML — don't wait for the homepage's
+    // large editorial images to finish loading.
+    await page.goto(route, { waitUntil: "domcontentloaded" });
     await expect(page.locator('link[rel="canonical"]')).toHaveAttribute("href", /mountainmovers|localhost|gitlab/);
     await expect(page.locator('meta[name="description"]')).toHaveAttribute("content", /.+/);
     await expect(page.locator('meta[property="og:title"]')).toHaveAttribute("content", /.+/);

@@ -10,10 +10,7 @@ const site = process.env.SITE_URL || "https://www.mountainmovers.org";
 export default defineConfig({
   site,
   trailingSlash: "ignore",
-  integrations: [
-    // Design variants are review-only pages — keep them out of the sitemap.
-    sitemap({ filter: (page) => !page.includes("/variants/") }),
-  ],
+  integrations: [sitemap()],
   redirects: {
     // Throwaway 2016 Jekyll posts — GitHub Pages has no server redirects, so
     // Astro emits meta-refresh pages. Weak SEO weight is acceptable here.

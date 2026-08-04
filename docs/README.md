@@ -16,7 +16,8 @@ _Last updated: 2026-08-03 (iteration 2)_
 | Core pages (Home, About, Founder, Donate, Contact, 404) | ✅ |
 | Ministries folded into About timeline (era_key join; /ministries/ → /about/) | ✅ iteration 2 |
 | Heritage logo (900×616 original + 320px header version) | ✅ iteration 2 |
-| Editorial design variant B at /variants/editorial/ (noindexed, out of sitemap) | ✅ iteration 2 |
+| **Editorial design won review → promoted to THE design** (homepage + shared .kicker/.page-hero language on all pages; /variants/ removed) | ✅ iteration 3 |
+| Wayne Hamit portrait (LinkedIn headshot) on Founder page + homepage feature | ✅ iteration 3 |
 | SGI port (frozen contract, ADR 0004) | ✅ build-verified; needs Playwright + live cross-check |
 | Podcast infra (index, episode pages, itunes RSS) | ✅ feed empty by design (all episodes draft) |
 | Content collections + zod schemas | ✅ |
@@ -29,9 +30,9 @@ _Last updated: 2026-08-03 (iteration 2)_
 
 | Question | Owner | Status |
 |---|---|---|
-| Wayne's feedback on the local redesign (both variants) | Josh + Wayne | open — gates next iteration |
+| ~~Design direction~~ — resolved: editorial design won review, now the only version | Josh | closed 2026-08-04 |
 | Donations: swap Donorbox → Givebutter? (0% + donor tips vs. Donorbox's 2.95% + processing; one-component change via DonorboxEmbed; recurring donors would need to re-enroll) | Josh | deferred to next iteration, after Wayne's feedback |
-| Editorial-variant photo licenses — images are from MMI's own 2015–2017 site (Wayback-recovered, mostly stock, provenance unverifiable). OK for the non-prod variant; verify or re-source before production use | Josh | open |
+| Editorial photo licenses — **now on the main design**: images are from MMI's own 2015–2017 site (Wayback-recovered, mostly stock, provenance unverifiable). MUST verify or re-source before production cutover (P0) | Josh | open |
 | Real MMI field photography (shot list below) | Josh | open |
 | Wayne's sign-off on podcast/sermon content | Josh + Wayne | open — everything draft-gated (ADR 0005) |
 | Sermon ownership: Wayne vs. Hope Lutheran | Josh + Wayne | open |
@@ -60,6 +61,6 @@ in MMI/family archives, if anywhere.
 
 ## Launch checklist (for the FUTURE cutover — do not execute)
 
-- P0: high-res logo · live SGI cross-check vs Jekyll · Apple feed validation
+- P0: verify/replace editorial photo licenses · live SGI cross-check vs Jekyll · Apple feed validation
 - P1: real OG share image · Wayne portrait · Search Console re-submit
 - P2: git-as-CMS editing doc for non-developers · per-ministry subpages

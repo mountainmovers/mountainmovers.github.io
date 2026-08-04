@@ -33,7 +33,7 @@ const personJsonLd = {
         height="398"
       />
       <div>
-        <p class="eyebrow">{founder.data.role}</p>
+        <p class="kicker">{founder.data.role}</p>
         <h1>{founder.data.title}</h1>
       </div>
     </div>
@@ -57,12 +57,6 @@ const personJsonLd = {
 </BaseLayout>
 
 <style>
-  .page-hero {
-    background: var(--color-glacier-900);
-    color: var(--color-snow);
-    padding-block: var(--space-6);
-  }
-
   .hero-grid {
     display: flex;
     align-items: center;
@@ -77,14 +71,6 @@ const personJsonLd = {
     border-radius: 50%;
     object-fit: cover;
     border: 3px solid var(--color-glacier-500);
-  }
-
-  .eyebrow {
-    text-transform: uppercase;
-    letter-spacing: 0.12em;
-    font-size: var(--text-sm);
-    color: var(--color-glacier-200);
-    margin-bottom: var(--space-2);
   }
 
   .bio,
