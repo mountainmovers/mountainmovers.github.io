@@ -11,9 +11,12 @@ _Last updated: 2026-08-04 — **LIVE IN PRODUCTION**_
 
 ## Deferred / known-accepted
 
-- npm audit: residual esbuild advisories (dev-server, Windows-only — no
-  production exposure for a static site). Full fix = Astro 7 major upgrade,
-  planned as its own task. sharp pinned ≥0.35 via package.json overrides.
+- npm audit / Dependabot: 9 open advisories — 6 in Astro 5.x (XSS/SSRF in
+  runtime rendering; patched only in Astro 6/7) + esbuild dev-server ones.
+  Real-world exposure ≈ nil (fully prerendered static site, no request-time
+  rendering, content is repo-controlled) but the correct fix is the Astro 7
+  upgrade — prioritized, see task list. sharp ≥0.35 override cleared the
+  libvips CVEs (the former critical).
 - GitLab preview/mirror never stood up (went straight to prod after Wayne's
   approval) — optional future redundancy.
 - Search Console: re-submit sitemap-index.xml (Josh, needs Google login).
