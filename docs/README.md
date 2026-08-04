@@ -29,6 +29,8 @@ _Last updated: 2026-08-03 (iteration 2)_
 
 | Question | Owner | Status |
 |---|---|---|
+| Wayne's feedback on the local redesign (both variants) | Josh + Wayne | open — gates next iteration |
+| Donations: swap Donorbox → Givebutter? (0% + donor tips vs. Donorbox's 2.95% + processing; one-component change via DonorboxEmbed; recurring donors would need to re-enroll) | Josh | deferred to next iteration, after Wayne's feedback |
 | Editorial-variant photo licenses — images are from MMI's own 2015–2017 site (Wayback-recovered, mostly stock, provenance unverifiable). OK for the non-prod variant; verify or re-source before production use | Josh | open |
 | Real MMI field photography (shot list below) | Josh | open |
 | Wayne's sign-off on podcast/sermon content | Josh + Wayne | open — everything draft-gated (ADR 0005) |
