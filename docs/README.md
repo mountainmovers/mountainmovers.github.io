@@ -1,12 +1,22 @@
 # Current state — mountainmovers.org redesign
 
-_Last updated: 2026-08-03 (iteration 2)_
+_Last updated: 2026-08-04 — **LIVE IN PRODUCTION**_
 
 ## Next session — start here
 
 1. Read `CLAUDE.md`, then this file.
-2. **Production = old Jekyll site on `master`. This branch is preview-only.**
+2. **Production = this Astro site.** `master` push = production deploy
+   (GitHub Actions → Pages). Work on branches; Josh gates merges.
 3. `npm run build` must be clean before and after your change.
+
+## Deferred / known-accepted
+
+- npm audit: residual esbuild advisories (dev-server, Windows-only — no
+  production exposure for a static site). Full fix = Astro 7 major upgrade,
+  planned as its own task. sharp pinned ≥0.35 via package.json overrides.
+- GitLab preview/mirror never stood up (went straight to prod after Wayne's
+  approval) — optional future redundancy.
+- Search Console: re-submit sitemap-index.xml (Josh, needs Google login).
 
 ## What exists
 

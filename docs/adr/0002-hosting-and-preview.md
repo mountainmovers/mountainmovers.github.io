@@ -1,7 +1,8 @@
 # ADR 0002 — GitHub Pages for production (deferred); GitLab Pages preview now
 
 - **Date:** 2026-08-03
-- **Status:** Accepted
+- **Status:** Accepted — **cutover executed 2026-08-04** (Wayne approved the
+  design; Josh flipped Pages build_type to "workflow" and pushed the merge)
 - **Deciders:** Josh Hamit
 
 ## Context

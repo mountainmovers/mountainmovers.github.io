@@ -5,10 +5,11 @@ International (MMI), a 501(c)(3) missions non-profit.
 
 ## ⚠ Production status
 
-**Production is the OLD Jekyll site on `master`, served by GitHub Pages'
-classic build. Do not merge this branch, push to `master`, or change GitHub
-Pages settings without an explicit instruction from Josh.** This branch
-(`redesign/astro`) deploys only to a noindexed GitLab Pages preview.
+**This Astro site IS production** as of 2026-08-04: `master` deploys to
+www.mountainmovers.org via GitHub Actions (`deploy.yml`, Pages build_type
+"workflow"). Every push to `master` is a production deploy — develop on
+`redesign/astro` (or feature branches), merge to `master` only with Josh's
+go-ahead. Rollback bookmark: tag `jekyll-final` + Pages build_type "legacy".
 
 ## Before you write code
 
