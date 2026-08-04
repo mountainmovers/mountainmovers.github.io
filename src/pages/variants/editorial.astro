@@ -103,6 +103,27 @@ const timeline = (await getCollection("timeline")).sort((a, b) => a.data.order -
     </div>
   </section>
 
+  <section class="ed-founder">
+    <div class="container ed-founder-grid">
+      <img
+        class="ed-portrait"
+        src="/images/wayne-hamit.jpg"
+        alt="Portrait of Wayne Hamit"
+        width="398"
+        height="398"
+      />
+      <div>
+        <p class="kicker">The founder</p>
+        <h2>Wayne Hamit</h2>
+        <p class="ed-founder-line">
+          Management consultant. Gulf War veteran. Law enforcement officer. Pastor. He teaches
+          from inside the world's experiences, not above them.
+        </p>
+        <a class="ed-link" href="/founder/">Meet Wayne &rarr;</a>
+      </div>
+    </div>
+  </section>
+
   <section class="ed-sgi">
     <div class="container">
       <h2><span>110 statements.</span> <span>22 gifts.</span> <span>One calling — yours.</span></h2>
@@ -402,6 +423,39 @@ const timeline = (await getCollection("timeline")).sort((a, b) => a.data.order -
   .era-body {
     color: var(--color-glacier-100);
     font-size: var(--text-sm);
+  }
+
+  /* Founder feature */
+  .ed-founder {
+    padding-block: var(--space-7);
+  }
+
+  .ed-founder-grid {
+    display: flex;
+    align-items: center;
+    gap: var(--space-6);
+    flex-wrap: wrap;
+  }
+
+  .ed-portrait {
+    width: 220px;
+    height: 220px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid var(--color-glacier-100);
+    box-shadow: var(--shadow-md);
+  }
+
+  .ed-founder h2 {
+    margin-block: var(--space-2);
+  }
+
+  .ed-founder-line {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: var(--text-lg);
+    color: var(--color-text-muted);
+    max-width: 44ch;
   }
 
   /* SGI — typographic block */

@@ -13,6 +13,7 @@ const personJsonLd = {
   jobTitle: founder.data.role,
   worksFor: { "@type": "Organization", name: "Mountain Movers International" },
   url: new URL("/founder/", Astro.site).toString(),
+  image: new URL("/images/wayne-hamit.jpg", Astro.site).toString(),
 };
 ---
 
@@ -23,9 +24,18 @@ const personJsonLd = {
 >
   <script type="application/ld+json" set:html={JSON.stringify(personJsonLd)} slot="head" />
   <section class="page-hero">
-    <div class="container">
-      <p class="eyebrow">{founder.data.role}</p>
-      <h1>{founder.data.title}</h1>
+    <div class="container hero-grid">
+      <img
+        class="portrait"
+        src="/images/wayne-hamit.jpg"
+        alt={`Portrait of ${founder.data.title}`}
+        width="398"
+        height="398"
+      />
+      <div>
+        <p class="eyebrow">{founder.data.role}</p>
+        <h1>{founder.data.title}</h1>
+      </div>
     </div>
   </section>
 
@@ -51,6 +61,22 @@ const personJsonLd = {
     background: var(--color-glacier-900);
     color: var(--color-snow);
     padding-block: var(--space-6);
+  }
+
+  .hero-grid {
+    display: flex;
+    align-items: center;
+    gap: var(--space-5);
+    flex-wrap: wrap;
+  }
+
+  /* Circular crop hides the portrait's dark studio background */
+  .portrait {
+    width: 148px;
+    height: 148px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid var(--color-glacier-500);
   }
 
   .eyebrow {
