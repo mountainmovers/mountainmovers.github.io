@@ -10,7 +10,7 @@ innovator, leader, and teacher. He founded Mountain Movers International in
 faith discern what calling God has uniquely equipped them for, and partnering
 with them to excel in it.
 
-Wayne holds a master's degree from Concordia Seminary, and his ministry has
+Wayne holds a Master of Divinity from Concordia Theological Seminary, and his ministry has
 included service as a church planter, Navy chaplain, senior pastor, and
 missionary. Before founding MMI, he helped launch FaithWorks with Bob Buford,
 serving as managing director.
