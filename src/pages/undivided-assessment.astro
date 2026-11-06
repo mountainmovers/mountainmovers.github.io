@@ -1,0 +1,523 @@
+---
+import { getEntry } from "astro:content";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import DonorboxEmbed from "../components/DonorboxEmbed.astro";
+
+// The Undivided Assessment (ADR 0006), from the book Undivided by C.W. Hamit.
+// Built as the Spiritual Gifts Inventory's companion: same page structure
+// (email gate, questions, results), same scale, same fail-open Mailchimp gate
+// and FormSubmit relay. Its own script (undivided.js) and its own `ua.*`
+// localStorage keys; the SGI's frozen contract (ADR 0004) is untouched.
+// All copy lives in src/content/undivided/assessment.yaml.
+const assessment = await getEntry("undivided", "assessment");
+const company = await getEntry("site", "company");
+if (!assessment || !company) throw new Error("Missing undivided/site content entries");
+
+const { title, description, hero, intro, quiz, questions, scale, parts, bands, results, closing } =
+  assessment.data;
+const { u, list_id } = company.data.mailchimp;
+const uaConfig = {
+  parts: parts.map((part) => ({
+    name: part.name,
+    chapters: part.chapters,
+    results: part.results,
+  })),
+  bands,
+  total: questions.length,
+  maxScore: (4 * questions.length) / parts.length,
+  subscribeUrl: `https://mountainmovers.us17.list-manage.com/subscribe/post-json?u=${u}&id=${list_id}`,
+  resultsEndpoint: company.data.undivided_results_endpoint,
+  messages: assessment.data.messages,
+  copy: {
+    previousNote: quiz.previous_note,
+    readLabel: results.read_label,
+    previousLabel: results.previous_label,
+    changeUp: results.change_up,
+    changeDown: results.change_down,
+    changeSame: results.change_same,
+  },
+};
+---
+
+<BaseLayout title={title} description={description}>
+  <div class="ua-hero">
+    <div class="container">
+      <p class="kicker kicker--light">{hero.kicker}</p>
+      <h1>{hero.heading}</h1>
+      <p class="ua-epigraph">{hero.epigraph}</p>
+    </div>
+  </div>
+
+  <section id="ua-gate" aria-labelledby="ua-intro-heading">
+    <div class="container ua-intro">
+      <h2 id="ua-intro-heading">{intro.heading}</h2>
+      {intro.body.map((paragraph) => <p>{paragraph}</p>)}
+      <form id="ua-gate-form" novalidate>
+        <label class="sr-only" for="ua-email">{intro.email_label}</label>
+        <input
+          type="email"
+          name="EMAIL"
+          id="ua-email"
+          placeholder={intro.email_placeholder}
+          autocomplete="email"
+          required
+        />
+        <input type="submit" value={intro.start_label} />
+      </form>
+      <p class="ua-gate-msg" id="ua-gate-msg" aria-live="polite" hidden></p>
+    </div>
+  </section>
+
+  <section id="ua-quiz" aria-labelledby="ua-quiz-heading" hidden>
+    <div class="ua-progress">
+      <div class="container">
+        <p>
+          <span id="ua-progress-count">0</span> of {questions.length}
+          {quiz.progress_suffix}
+        </p>
+        <div class="bar" aria-hidden="true"><div class="fill" id="ua-progress-fill"></div></div>
+      </div>
+    </div>
+    <div class="container ua-quiz-body">
+      <h2 id="ua-quiz-heading" tabindex="-1">{quiz.heading}</h2>
+      <p class="ua-previous-note" id="ua-previous-note" hidden></p>
+      <p class="ua-instructions">{quiz.instructions}</p>
+      <form id="ua-quiz-form" novalidate>
+        {
+          questions.map((question, index) => (
+            <fieldset class="ua-question" id={`ua-q${index + 1}`}>
+              <legend class="ua-text">
+                <span class="ua-num">{index + 1}.</span> {question.text}
+              </legend>
+              <div class="ua-options">
+                {scale.map((option) => (
+                  <label>
+                    <input type="radio" name={`q${index + 1}`} value={option.value} />
+                    {option.label}
+                  </label>
+                ))}
+              </div>
+            </fieldset>
+          ))
+        }
+        <p class="ua-quiz-msg" id="ua-quiz-msg" aria-live="polite" hidden></p>
+        <input type="submit" value={quiz.submit_label} />
+      </form>
+    </div>
+  </section>
+
+  <section id="ua-results" aria-labelledby="ua-results-heading" hidden>
+    <div class="container ua-results-body">
+      <h2 id="ua-results-heading" tabindex="-1">{results.heading}</h2>
+      <p class="ua-result-key">{results.key}</p>
+      <ol id="ua-results-list" class="ua-results-list"></ol>
+      <div class="ua-retake-wrap">
+        <button id="ua-retake" type="button">{results.retake_label}</button>
+      </div>
+    </div>
+
+    <div class="container ua-closing">
+      <h2>{closing.heading}</h2>
+      {closing.body.map((paragraph) => <p>{paragraph}</p>)}
+      <div class="ua-links">
+        <div class="ua-link-card">
+          <p>{closing.book.text}</p>
+          <a href={closing.book.url}>{closing.book.link_label} &rarr;</a>
+        </div>
+        <div class="ua-link-card">
+          <p>{closing.sgi.text}</p>
+          <a href={closing.sgi.url}>{closing.sgi.link_label} &rarr;</a>
+        </div>
+      </div>
+      <p class="ua-donate-note">{closing.donate}</p>
+      <DonorboxEmbed />
+    </div>
+  </section>
+
+  <aside class="container ua-note" aria-label="About this assessment">
+    <p>{closing.note}</p>
+  </aside>
+
+  <script type="application/json" id="ua-config" set:html={JSON.stringify(uaConfig)} />
+  <script src="../scripts/undivided.js"></script>
+</BaseLayout>
+
+<style>
+  .ua-hero {
+    background: var(--color-glacier-900);
+    color: var(--color-snow);
+    padding-block: var(--space-6);
+    text-align: center;
+  }
+
+  .ua-hero .kicker {
+    margin-inline: auto;
+  }
+
+  .ua-hero h1 {
+    margin-top: var(--space-2);
+  }
+
+  .ua-epigraph {
+    color: var(--color-glacier-100);
+    margin: var(--space-3) auto 0;
+    font-family: var(--font-display);
+    font-style: italic;
+  }
+
+  section {
+    padding-block: var(--space-5);
+  }
+
+  .ua-intro {
+    max-width: 44rem;
+    text-align: center;
+  }
+
+  .ua-intro p {
+    margin-block: var(--space-3);
+    margin-inline: auto;
+  }
+
+  #ua-gate-form {
+    display: flex;
+    gap: var(--space-2);
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: var(--space-4);
+  }
+
+  #ua-gate-form input[type="email"] {
+    flex: 1 1 16rem;
+    padding: var(--space-3);
+    border: 1px solid var(--color-mist);
+    border-radius: var(--radius);
+    font-size: var(--text-base);
+  }
+
+  #ua-gate-form input[type="submit"],
+  #ua-quiz-form input[type="submit"] {
+    padding: var(--space-3) var(--space-5);
+    background: var(--color-glacier-700);
+    color: var(--color-snow);
+    border: none;
+    border-radius: var(--radius);
+    font-weight: var(--weight-semibold);
+    cursor: pointer;
+    transition: background var(--duration) var(--ease);
+  }
+
+  #ua-gate-form input[type="submit"]:hover,
+  #ua-quiz-form input[type="submit"]:hover {
+    background: var(--color-glacier-900);
+  }
+
+  .ua-gate-msg,
+  .ua-quiz-msg {
+    text-align: center;
+    color: var(--color-error);
+    margin-top: var(--space-3);
+    margin-inline: auto;
+  }
+
+  .ua-gate-msg.success {
+    color: var(--color-success);
+  }
+
+  .ua-progress {
+    position: sticky;
+    top: 68px;
+    z-index: 40;
+    background: var(--color-bg);
+    padding-block: var(--space-2);
+    border-bottom: 1px solid var(--color-line);
+    margin-bottom: var(--space-4);
+  }
+
+  .ua-progress p {
+    margin-bottom: var(--space-1);
+    font-size: var(--text-sm);
+  }
+
+  .ua-progress .bar {
+    height: 6px;
+    background: var(--color-line);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+
+  .ua-progress .fill {
+    height: 100%;
+    width: 0;
+    background: var(--color-glacier-500);
+    transition: width var(--duration) var(--ease);
+  }
+
+  .ua-quiz-body h2 {
+    font-size: var(--text-xl);
+    margin-bottom: var(--space-2);
+  }
+
+  .ua-instructions {
+    margin-bottom: var(--space-3);
+  }
+
+  .ua-previous-note {
+    background: var(--color-glacier-100);
+    border-left: 4px solid var(--color-glacier-700);
+    padding: var(--space-2) var(--space-3);
+    margin-bottom: var(--space-3);
+    border-radius: var(--radius-sm);
+  }
+
+  .ua-question {
+    border: 0;
+    border-bottom: 1px solid var(--color-line);
+    margin: 0;
+    padding: var(--space-4) 0;
+    min-width: 0;
+  }
+
+  .ua-text {
+    font-size: var(--text-lg);
+    margin-bottom: var(--space-3);
+    padding: 0;
+  }
+
+  .ua-num {
+    color: var(--color-text-muted);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .ua-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+  }
+
+  .ua-options label {
+    border: 1px solid var(--color-mist);
+    border-radius: var(--radius);
+    padding: var(--space-2) var(--space-3);
+    cursor: pointer;
+    font-size: var(--text-sm);
+    transition:
+      background var(--duration) var(--ease),
+      border-color var(--duration) var(--ease);
+  }
+
+  .ua-options label:hover {
+    border-color: var(--color-glacier-700);
+  }
+
+  .ua-options label:focus-within {
+    outline: 3px solid var(--color-focus);
+    outline-offset: 2px;
+  }
+
+  .ua-options input {
+    margin-right: var(--space-1);
+    accent-color: var(--color-glacier-700);
+  }
+
+  .ua-options :global(label.selected) {
+    background: var(--color-glacier-700);
+    border-color: var(--color-glacier-900);
+    color: var(--color-snow);
+  }
+
+  .ua-options :global(label.selected input) {
+    accent-color: var(--color-snow);
+  }
+
+  :global(.ua-question.unanswered) .ua-text {
+    color: var(--color-error);
+  }
+
+  #ua-quiz-form input[type="submit"] {
+    display: block;
+    margin: var(--space-5) auto 0;
+  }
+
+  .ua-results-body h2,
+  .ua-closing h2 {
+    text-align: center;
+  }
+
+  .ua-result-key {
+    text-align: center;
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    margin-block: var(--space-2) var(--space-4);
+    margin-inline: auto;
+  }
+
+  .ua-results-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 auto;
+    max-width: 48rem;
+    display: grid;
+    gap: var(--space-4);
+  }
+
+  .ua-results-list :global(.ua-result) {
+    max-width: none;
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-lg);
+    padding: var(--space-4);
+    background: var(--color-bg);
+  }
+
+  .ua-results-list :global(.ua-result-head) {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--space-2);
+  }
+
+  .ua-results-list :global(.ua-score) {
+    font-size: var(--text-base);
+    margin: 0;
+  }
+
+  .ua-results-list :global(.ua-score strong) {
+    font-size: var(--text-xl);
+    font-family: var(--font-display);
+  }
+
+  .ua-results-list :global(.ua-band) {
+    display: inline-block;
+    margin-left: var(--space-2);
+    padding: 0 var(--space-2);
+    border-radius: var(--radius-sm);
+    font-size: var(--text-xs);
+    font-weight: var(--weight-bold);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    background: var(--color-glacier-100);
+    color: var(--color-glacier-900);
+  }
+
+  .ua-results-list :global(.ua-bars) {
+    margin-block: var(--space-3);
+    display: grid;
+    gap: var(--space-1);
+  }
+
+  .ua-results-list :global(.ua-bar) {
+    background: var(--color-line);
+    height: 18px;
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+  }
+
+  .ua-results-list :global(.ua-bar.is-previous) {
+    height: 8px;
+  }
+
+  .ua-results-list :global(.ua-fill) {
+    height: 100%;
+    background: var(--color-glacier-700);
+  }
+
+  .ua-results-list :global(.ua-band-steady .ua-fill) {
+    background: var(--color-glacier-500);
+  }
+
+  .ua-results-list :global(.ua-band-growing .ua-fill) {
+    background: var(--color-mist);
+  }
+
+  .ua-results-list :global(.ua-bar.is-previous .ua-fill) {
+    background: var(--color-glacier-200);
+  }
+
+  .ua-results-list :global(.ua-prev) {
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-2);
+  }
+
+  .ua-results-list :global(.ua-chapters) {
+    margin-top: var(--space-3);
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+  }
+
+  .ua-results-list :global(.ua-chapters strong) {
+    color: var(--color-text);
+  }
+
+  .ua-retake-wrap {
+    text-align: center;
+    margin-top: var(--space-5);
+  }
+
+  #ua-retake {
+    padding: var(--space-3) var(--space-5);
+    background: none;
+    border: 2px solid var(--color-glacier-700);
+    color: var(--color-glacier-700);
+    border-radius: var(--radius);
+    font-weight: var(--weight-semibold);
+    cursor: pointer;
+  }
+
+  #ua-retake:hover {
+    background: var(--color-glacier-100);
+  }
+
+  .ua-closing {
+    max-width: 48rem;
+    padding-top: var(--space-5);
+  }
+
+  .ua-closing > p {
+    margin: var(--space-3) auto 0;
+  }
+
+  .ua-links {
+    display: grid;
+    gap: var(--space-3);
+    margin-block: var(--space-4);
+  }
+
+  @media (min-width: 48rem) {
+    .ua-links {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .ua-link-card {
+    background: var(--color-bg-alt);
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius);
+    padding: var(--space-4);
+  }
+
+  .ua-link-card a {
+    display: inline-block;
+    margin-top: var(--space-2);
+    font-weight: var(--weight-semibold);
+  }
+
+  .ua-donate-note {
+    text-align: center;
+    margin-inline: auto;
+    margin-block: var(--space-4);
+  }
+
+  .ua-note {
+    padding-block: var(--space-4) 0;
+  }
+
+  .ua-note p {
+    margin-inline: auto;
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    border-top: 1px solid var(--color-line);
+    padding-top: var(--space-3);
+  }
+</style>

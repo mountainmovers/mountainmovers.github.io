@@ -7,6 +7,7 @@ const routes = [
   "/founder/",
   "/podcast/",
   "/spiritual-gifts-inventory/",
+  "/undivided-assessment/",
   "/donate/",
   "/contact/",
 ];

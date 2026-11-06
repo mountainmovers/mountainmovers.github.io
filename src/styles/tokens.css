@@ -38,6 +38,10 @@
   --color-link: var(--color-glacier-700);
   --color-link-hover: var(--color-glacier-900);
   --color-focus: var(--color-glacier-600);
+  /* Form feedback. Same values the SGI and newsletter forms use inline;
+     both pass AA on white (5.4:1 and 5.1:1). */
+  --color-error: #c0392b;
+  --color-success: #2e7d43;
 
   /* Type families */
   --font-display: "Source Serif 4 Variable", Georgia, "Times New Roman", serif;

@@ -7,7 +7,11 @@ import DonorboxEmbed from "../components/DonorboxEmbed.astro";
 // localStorage keys are frozen — see ADR 0004. Only the visual styling is new.
 const inventory = await getEntry("sgi", "inventory");
 const company = await getEntry("site", "company");
-if (!inventory || !company) throw new Error("Missing sgi/site content entries");
+// Companion cross-link (ADR 0006). Copy lives in the Undivided Assessment's
+// content entry; this adds markup only — no frozen ID, key or script changes.
+const undivided = await getEntry("undivided", "assessment");
+if (!inventory || !company || !undivided) throw new Error("Missing sgi/site/undivided content entries");
+const companion = undivided.data.crosslinks.sgi_page;
 
 const { questions, scale, gifts } = inventory.data;
 const { u, list_id } = company.data.mailchimp;
@@ -46,6 +50,9 @@ const sgiConfig = {
         <input type="submit" value="Start the Inventory" />
       </form>
       <p class="sgi-gate-msg" id="sgi-gate-msg" hidden></p>
+      <p class="sgi-companion">
+        {companion.text} <a href="/undivided-assessment/">{companion.link_label} &rarr;</a>
+      </p>
     </div>
   </section>
 
@@ -95,6 +102,13 @@ const sgiConfig = {
       <div id="sgi-results-list"></div>
       <div class="sgi-retake-wrap">
         <button id="sgi-retake" type="button">Retake the Inventory</button>
+      </div>
+    </div>
+    <div class="container">
+      <div class="sgi-companion-card">
+        <h2 id="sgi-companion-heading">{companion.heading}</h2>
+        <p>{companion.text}</p>
+        <a href="/undivided-assessment/">{companion.link_label} &rarr;</a>
       </div>
     </div>
     <div class="container">
@@ -334,6 +348,38 @@ const sgiConfig = {
 
   #sgi-retake:hover {
     background: var(--color-glacier-100);
+  }
+
+  .sgi-companion {
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    margin-top: var(--space-5);
+  }
+
+  .sgi-companion a {
+    font-weight: var(--weight-semibold);
+  }
+
+  .sgi-companion-card {
+    max-width: 44rem;
+    margin: 0 auto;
+    padding: var(--space-4);
+    background: var(--color-bg-alt);
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius);
+    text-align: center;
+  }
+
+  .sgi-companion-card h2 {
+    font-size: var(--text-xl);
+  }
+
+  .sgi-companion-card p {
+    margin: var(--space-2) auto var(--space-3);
+  }
+
+  .sgi-companion-card a {
+    font-weight: var(--weight-semibold);
   }
 
   .sgi-donate-note {

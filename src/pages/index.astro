@@ -14,6 +14,8 @@ const { title, description, heading, intro, sections } = page.data;
 const [mission, sgiCallout, newsletter, donate] = sections;
 
 const founder = await getEntry("founder", "wayne-hamit");
+// The Undivided Assessment sits next to the SGI (ADR 0006).
+const undivided = await getEntry("undivided", "assessment");
 const timeline = (await getCollection("timeline")).sort((a, b) => a.data.order - b.data.order);
 ---
 
@@ -117,6 +119,14 @@ const timeline = (await getCollection("timeline")).sort((a, b) => a.data.order -
       <h2><span>110 statements.</span> <span>22 gifts.</span> <span>One calling — yours.</span></h2>
       <p>{sgiCallout.body[0]}</p>
       <a class="ed-btn" href="/spiritual-gifts-inventory/">Take the Inventory</a>
+      {
+        undivided && (
+          <p class="ed-sgi-companion">
+            {undivided.data.crosslinks.home.text}{" "}
+            <a href="/undivided-assessment/">{undivided.data.crosslinks.home.link_label} &rarr;</a>
+          </p>
+        )
+      }
     </div>
   </section>
 
@@ -430,6 +440,17 @@ const timeline = (await getCollection("timeline")).sort((a, b) => a.data.order -
 
   .ed-sgi p {
     margin: var(--space-4) auto 0;
+  }
+
+  .ed-sgi .ed-sgi-companion {
+    margin-top: var(--space-4);
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+  }
+
+  .ed-sgi-companion a {
+    font-weight: var(--weight-semibold);
+    white-space: nowrap;
   }
 
   .ed-btn {

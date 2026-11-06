@@ -1,0 +1,319 @@
+# The Undivided Assessment — from the book Undivided: What Science Is
+# Discovering About the Whole Person God Made, by C.W. Hamit (Mountain Movers
+# Press). The book sends readers here: "a free, online, self-scoring
+# assessment that looks at the five parts of this book ... It sits right next
+# to the Mountain Movers spiritual gifts inventory." See docs/adr/0006.
+#
+# Scoring (mirrors the Spiritual Gifts Inventory's interleave): question n
+# scores toward part (n - 1) mod 5, so each part sums questions n, n+5, n+10,
+# n+15, n+20 on the 0-4 scale below, for 0-20 points. Every question names its
+# part; the schema refuses the build if a question is out of place.
+# Bands: strong 16-20, steady 9-15, growing 0-8.
+
+title: Undivided Assessment
+description: >-
+  The free Undivided Assessment from the book Undivided by C.W. Hamit. Twenty-five
+  statements show where you are strong and where you are growing in heart, soul,
+  mind, strength and neighbor.
+
+hero:
+  kicker: From the book Undivided
+  heading: The Undivided Assessment
+  epigraph: >-
+    "And you shall love the Lord your God with all your heart and with all your
+    soul and with all your mind and with all your strength." (Mark 12:30)
+
+intro:
+  heading: Heart, soul, mind, strength and neighbor
+  body:
+    - >-
+      This is the Undivided Assessment from the book Undivided: What Science Is
+      Discovering About the Whole Person God Made, by C.W. Hamit. The book
+      follows the Great Commandment in five parts, and this assessment looks at
+      each of them: heart, soul, mind, strength and neighbor.
+    - >-
+      Twenty-five short statements take about five minutes. You'll get a score
+      for each of the five parts, showing where you are strong and where you are
+      growing, and the chapters of Undivided that speak to each one. It is not a
+      test you can fail. It is a mirror. Take it now, and take it again when you
+      finish the book.
+    - >-
+      Enter your email to join our mailing list and begin. Mountain Movers
+      receives a copy of your results along with your email.
+  email_label: Email address
+  email_placeholder: Email
+  start_label: Start the Assessment
+
+messages:
+  invalid_email: Please enter a valid email address.
+  subscribed: You're on the list. Take your time with the assessment.
+  subscribe_offline: >-
+    We couldn't reach the mailing list just now, but you can still take the
+    assessment.
+  subscribe_error: Something went wrong. Please try again.
+  unanswered: "Please answer every statement: {count} remaining (marked in red)."
+
+quiz:
+  heading: Twenty-five statements
+  instructions: >-
+    Choose how much you agree with each statement. Answer for how things are
+    now, not how you wish they were. When you're done, choose "See My Results"
+    at the end.
+  progress_suffix: answered
+  submit_label: See My Results
+  previous_note: >-
+    You last took the assessment on {date}. Your new results will show what has
+    changed.
+
+scale:
+  - value: 4
+    label: Strongly Agree
+  - value: 3
+    label: Agree Somewhat
+  - value: 2
+    label: Undecided
+  - value: 1
+    label: Disagree Somewhat
+  - value: 0
+    label: Completely Disagree
+
+bands:
+  - key: strong
+    label: Strong
+    min: 16
+    max: 20
+  - key: steady
+    label: Steady
+    min: 9
+    max: 15
+  - key: growing
+    label: Growing
+    min: 0
+    max: 8
+
+parts:
+  - name: Heart
+    chapters: >-
+      Part One: Chapter 1, The Divided Heart · Chapter 2, Six Breaths a Minute ·
+      Chapter 3, Guard Your Heart
+    results:
+      strong: >-
+        Your heart is largely undivided. You tend to show up whole, steady
+        yourself under pressure and keep honest watch over what you feel. Guard
+        it. Chapter 3, "Guard Your Heart," gives you the Watchman's Round for the
+        days that test it, and you may be the steady presence someone near you
+        needs.
+      steady: >-
+        Much of the time your heart is steady, but there are places where it
+        pulls in two directions. Start with Chapter 1, "The Divided Heart," and
+        its practice, Unite My Heart. Then Chapter 2, "Six Breaths a Minute,"
+        gives you a way to steady yourself in the moment.
+      growing: >-
+        Your heart may be pulled in several directions right now. That is not a
+        failure. It is where most of us start. Read Part One from the beginning:
+        Chapter 1, "The Divided Heart," Chapter 2, "Six Breaths a Minute," and
+        Chapter 3, "Guard Your Heart." And pray David's prayer as you go: "Unite
+        my heart to fear your name."
+  - name: Soul
+    chapters: >-
+      Part Two: Chapter 4, Settled · Chapter 5, Thankful · Chapter 6, Forgiven
+      and Forgiving
+    results:
+      strong: >-
+        Your soul is settled. You know whose you are, you notice what you've
+        been given, and you don't keep a ledger in your head. Let Chapter 6,
+        "Forgiven and Forgiving," keep that ledger closed, and help someone else
+        find the rest you've found.
+      steady: >-
+        You know you are loved, but your worth may still rise and fall with the
+        day's results. Read Chapter 4, "Settled," and pray Psalm 131 before and
+        after your hardest moment. Chapter 5, "Thankful," gives you a practice
+        for the evenings.
+      growing: >-
+        Your soul may be carrying more than it should: the question "Am I okay?",
+        a heavy ledger, or too little room to notice what you've been given. Read
+        Part Two slowly: Chapter 4, "Settled," Chapter 5, "Thankful," and Chapter
+        6, "Forgiven and Forgiving." Your worth was settled before your first
+        breath of effort.
+  - name: Mind
+    chapters: >-
+      Part Three: Chapter 7, Renewed · Chapter 8, Whatever Is True · Chapter 9,
+      The Praying Brain
+    results:
+      strong: >-
+        Your mind is being renewed. You test your thoughts against what is true,
+        and prayer is a real conversation for you. Keep the rhythm. Chapter 9,
+        "The Praying Brain," gives you morning and evening bookends to carry it
+        through hard seasons.
+      steady: >-
+        Some of your thinking is renewed, and some still runs on old paths. Read
+        Chapter 7, "Renewed," and name one old path to replace. When a thought
+        grips you, Chapter 8, "Whatever Is True," shows you how to ask what you
+        actually know.
+      growing: >-
+        Your thoughts may be running you more than you are running them. That
+        can change; the mind keeps changing all through life. Read Part Three:
+        Chapter 7, "Renewed," Chapter 8, "Whatever Is True," and Chapter 9, "The
+        Praying Brain," and start with one short prayer at the beginning and end
+        of each day.
+  - name: Strength
+    chapters: >-
+      Part Four: Chapter 10, Fearfully and Wonderfully Made · Chapter 11, Rest
+      Is a Command · Chapter 12, Under Pressure
+    results:
+      strong: >-
+        You treat your body as a gift. You move, you rest, and you can meet
+        pressure with a steady mind. Chapter 12, "Under Pressure," will sharpen
+        what you already do, and Chapter 11, "Rest Is a Command," will help you
+        protect it when life gets busy.
+      steady: >-
+        You care for your body some of the time, but rest or movement may be the
+        first thing to go when life speeds up. Read Chapter 11, "Rest Is a
+        Command," and try Evening First this week. Chapter 10, "Fearfully and
+        Wonderfully Made," starts with a walk.
+      growing: >-
+        Your body may be running on empty: short on sleep, short on rest, or
+        bracing against every pressure. Read Part Four: Chapter 10, "Fearfully
+        and Wonderfully Made," Chapter 11, "Rest Is a Command," and Chapter 12,
+        "Under Pressure." Rest is not a reward you earn. It is a command, and a
+        gift.
+  - name: Neighbor
+    chapters: >-
+      Part Five: Chapter 13, Not Good to Be Alone · Chapter 14, Undivided
+      Together · Chapter 15, Living Whole
+    results:
+      strong: >-
+        You are not doing life alone. You are known, you help carry others, and
+        your gifts are at work. Chapter 15, "Living Whole," asks what a life
+        poured out for others looks like over the long haul, and Chapter 14,
+        "Undivided Together," will help you hold up someone else's arms.
+      steady: >-
+        You have people, but you may not let them all the way in, or you may not
+        yet be carrying others. Read Chapter 13, "Not Good to Be Alone," and
+        write your 3 A.M. list. Chapter 14, "Undivided Together," shows how your
+        gifts serve the people around you.
+      growing: >-
+        You may be carrying a lot on your own right now. God said it first: it
+        is not good to be alone. Read Part Five: Chapter 13, "Not Good to Be
+        Alone," Chapter 14, "Undivided Together," and Chapter 15, "Living Whole."
+        This week, put one real conversation on the calendar and tell one person
+        one true thing.
+
+# Interleaved: Heart, Soul, Mind, Strength, Neighbor, then repeat.
+questions:
+  - part: Heart
+    text: Most days I am fully present where I am, not already living in the next thing.
+  - part: Soul
+    text: My sense of worth stays the same whether I have a good day or a bad one.
+  - part: Mind
+    text: I believe the way I think can change, even habits of thought I've had for years.
+  - part: Strength
+    text: I treat my body as a gift from God to care for, not an enemy to fight or an idol to serve.
+  - part: Neighbor
+    text: There are people I could call at three in the morning who would come.
+
+  - part: Heart
+    text: The person I am at church, at work and at home is the same person.
+  - part: Soul
+    text: I believe God accepts me because of His grace, not because of how well I perform.
+  - part: Mind
+    text: When a worried or negative thought grips me, I stop and ask whether it is actually true.
+  - part: Strength
+    text: I move my body regularly, whether by walking, exercising or working with my hands.
+  - part: Neighbor
+    text: At least one person knows the true state of my life, not just the version I show.
+
+  - part: Heart
+    text: When pressure rises, I know how to slow down, breathe and steady myself before I respond.
+  - part: Soul
+    text: I regularly stop to notice specific gifts in my life and thank God for them.
+  - part: Mind
+    text: I give my mind more time with Scripture and what is good than with noise and my phone.
+  - part: Strength
+    text: I usually get the sleep my body needs, instead of treating sleep as the first thing to cut.
+  - part: Neighbor
+    text: I belong to a church, group or team where I am known and where I help carry others.
+
+  - part: Heart
+    text: When a strong feeling rises in me, I can name it honestly instead of stuffing it down or letting it take over.
+  - part: Soul
+    text: I know I am forgiven, and I don't keep replaying my old failures.
+  - part: Mind
+    text: Prayer feels to me like a real conversation with a Father who listens.
+  - part: Strength
+    text: I keep a regular time of rest and worship each week, and I don't feel guilty about it.
+  - part: Neighbor
+    text: I know some of the gifts God has given me, and I use them to serve the people around me.
+
+  - part: Heart
+    text: I keep watch over what I let into my heart, and I bring what I find there to God.
+  - part: Soul
+    text: When someone wrongs me, I am able to let the debt go rather than keep a ledger in my head.
+  - part: Mind
+    text: I have a habit of prayer that begins and ends my day.
+  - part: Strength
+    text: When pressure comes, I can treat it as a challenge to meet, not only as a threat to survive.
+  - part: Neighbor
+    text: I see my everyday work and roles as places where God serves other people through me.
+
+results:
+  heading: Your Undivided Results
+  key: >-
+    Each part is scored out of 20. Strong is 16 to 20, steady is 9 to 15, and
+    growing is 0 to 8. Your parts are listed from strongest to growing.
+  read_label: Read in Undivided
+  previous_label: "Last time ({date}): {score}"
+  change_up: "up {n}"
+  change_down: "down {n}"
+  change_same: no change
+  retake_label: Retake the Assessment
+
+closing:
+  heading: Take it again when you finish the book
+  body:
+    - >-
+      Your scores are a picture of today, not a verdict. Being undivided is a
+      gift before it is a practice. Read Undivided, try one practice each week,
+      and come back to this page when you finish. Your results are saved in
+      this browser, so next time you'll see what has changed in each part.
+  book:
+    text: >-
+      Undivided: What Science Is Discovering About the Whole Person God Made, by
+      C.W. Hamit, founder of Mountain Movers International, is available February
+      2, 2027.
+    link_label: Meet the author
+    url: /founder/
+  sgi:
+    text: >-
+      The Undivided Assessment sits right next to the Mountain Movers Spiritual
+      Gifts Inventory, and the two belong together. This assessment shows how the
+      whole person is doing; the inventory shows how God has gifted you to serve.
+    link_label: Take the Spiritual Gifts Inventory
+    url: /spiritual-gifts-inventory/
+  note: >-
+    The Undivided Assessment is a tool for personal reflection, not a medical or
+    psychological assessment, and it does not diagnose anything. If you are
+    struggling with your health, your sleep, your mood or your safety, please
+    talk to someone who can help. In the United States, call or text 988 to reach
+    the 988 Suicide & Crisis Lifeline.
+  donate: >-
+    This assessment is a free ministry of Mountain Movers International. If it
+    has blessed you, please consider a donation to help us keep moving mountains.
+
+# Copy the companion pages render when they point here (rendered by the SGI
+# page and the homepage; the SGI's frozen script and inventory data are
+# untouched).
+crosslinks:
+  sgi_page:
+    heading: The Undivided Assessment
+    text: >-
+      From the book Undivided by C.W. Hamit: a free, self-scoring assessment of
+      heart, soul, mind, strength and neighbor. It sits right next to this
+      inventory, and the two belong together.
+    link_label: Take the Undivided Assessment
+  home:
+    text: >-
+      And from the book Undivided by C.W. Hamit: the Undivided Assessment, 25
+      statements on heart, soul, mind, strength and neighbor.
+    link_label: Take the Undivided Assessment
+  nav_label: Undivided

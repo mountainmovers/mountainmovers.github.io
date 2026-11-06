@@ -1,11 +1,17 @@
 ---
+import { getEntry } from "astro:content";
+
 // Site header. Light background so the heritage logo (dark serif wordmark,
 // ice/glacier peaks) sits on its native ground.
+const undivided = await getEntry("undivided", "assessment");
+if (!undivided) throw new Error("Missing undivided/assessment content entry");
 const links = [
   { href: "/about/", label: "About" },
   { href: "/founder/", label: "Founder" },
   { href: "/podcast/", label: "Podcast" },
   { href: "/spiritual-gifts-inventory/", label: "Spiritual Gifts" },
+  // The Undivided Assessment sits next to the SGI (ADR 0006).
+  { href: "/undivided-assessment/", label: undivided.data.crosslinks.nav_label },
   { href: "/contact/", label: "Contact" },
 ];
 const current = Astro.url.pathname;

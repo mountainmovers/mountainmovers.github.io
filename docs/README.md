@@ -1,6 +1,6 @@
 # Current state — mountainmovers.org redesign
 
-_Last updated: 2026-08-04 — **LIVE IN PRODUCTION**_
+_Last updated: 2026-11-05 — **LIVE IN PRODUCTION** (Undivided Assessment on `feature/undivided-assessment`, awaiting Josh's review)_
 
 ## Next session — start here
 
@@ -32,6 +32,7 @@ _Last updated: 2026-08-04 — **LIVE IN PRODUCTION**_
 | **Editorial design won review → promoted to THE design** (homepage + shared .kicker/.page-hero language on all pages; /variants/ removed) | ✅ iteration 3 |
 | Wayne Hamit portrait (LinkedIn headshot) on Founder page + homepage feature | ✅ iteration 3 |
 | SGI port (frozen contract, ADR 0004) | ✅ build-verified; needs Playwright + live cross-check |
+| Undivided Assessment at /undivided-assessment/ (ADR 0006): 25 statements, Heart/Soul/Mind/Strength/Neighbor scores 0–20, `ua.*` keys + `ua.history` before/after on retake, SGI-identical fail-open gate and FormSubmit relay; linked from header, SGI page, homepage callout, 404 | ✅ on `feature/undivided-assessment`; not on `master` until Josh merges |
 | Podcast infra (index, episode pages, itunes RSS) | ✅ feed empty by design (all episodes draft) |
 | Content collections + zod schemas | ✅ |
 | Playwright tests (a11y/sgi/rss/seo/drafts) | ✅ |
@@ -51,6 +52,7 @@ _Last updated: 2026-08-04 — **LIVE IN PRODUCTION**_
 | Wayne's sign-off on podcast/sermon content | Josh + Wayne | open — everything draft-gated (ADR 0005) |
 | Sermon ownership: Wayne vs. Hope Lutheran | Josh + Wayne | open |
 | Podcast host (RSS.com / Buzzsprout / Ghost / self) | Josh | open — doesn't block site work |
+| Undivided Assessment book link points to /founder/ until /books/undivided/ exists — swap `closing.book.url` in src/content/undivided/assessment.yaml | Josh | open — when the books section ships |
 | SGI results → Google Sheets endpoint swap | Josh | open (separate thread) |
 | Wayne portrait photo (better than 2003 capture) | Josh | open |
 
